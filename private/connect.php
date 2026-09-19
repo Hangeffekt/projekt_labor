@@ -9,22 +9,73 @@ try {
   echo "Connection failed: " . $e->getMessage();
 }
 
+function load_page_file($page) {
+    if(str_contains($page, 'tax')) {
+        return __DIR__ . "\..\admin\\taxes\\{$page}.php";
+    }
+    return __DIR__ . "/index.php";
+}
 
-function sections(){
+function last_ten_orders(){
     global $conn;
     $data = [];
-    $sql = $conn->prepare("SELECT * FROM section");
+    $sql = $conn->prepare("SELECT * FROM orders LIMIT 10");
 
     $sql->execute();
-    $data["sections"] = $sql->fetchAll(PDO::FETCH_ASSOC);
+    $data["orders"] = $sql->fetchAll(PDO::FETCH_ASSOC);
 
-    $sql = $conn->prepare("SELECT id, name, author_name, substring(content, 1, 30) as content from thread
-          ORDER BY created_at DESC
-          LIMIT 5");
-
-    $sql->execute();
-    $data["topThreads"] = $sql->fetchAll(PDO::FETCH_ASSOC);
     return $data;
+}
+
+function taxes(){
+    global $conn;
+    $data = [];
+    $sql = $conn->prepare("SELECT * FROM taxes");
+
+    $sql->execute();
+    $data["taxes"] = $sql->fetchAll(PDO::FETCH_ASSOC);
+
+    return $data;
+}
+
+function createTax($data){
+  global $conn;
+  
+  $sql = $conn->prepare("INSERT INTO `taxes` (`value`) VALUES (:value)");
+  $sql->execute([
+    ...$data
+  ]);
+}
+
+function edit_tax($id) {
+    global $conn;
+    $data = [];
+    $sql = $conn->prepare("SELECT * FROM taxes WHERE id = :id");
+
+    $sql->execute(["id" => $id]);
+    $data["tax"] = $sql->fetchAll(PDO::FETCH_ASSOC);
+
+    return $data;
+}
+
+function createUpdate($data, $id){
+  global $conn;
+  
+  $sql = $conn->prepare("UPDATE taxes 
+                        SET value = :value
+                        WHERE id = :id");
+  $sql->execute([
+      ...$data,
+      "id" => $id
+    ]);
+}
+
+function delete_tax($id) {
+    global $conn;
+    
+    $sql = $conn->prepare("DELETE FROM taxes 
+                          WHERE id = :id");
+    $sql->execute(["id" => $id]);
 }
 
 function getThreads($s_id){
