@@ -24,7 +24,7 @@
 
         if (empty($errors)) {
             $value = preg_replace('/[^0-9.]/', '', $value);
-            createUpdate(['value' => $value], $id);
+            update_tax(['value' => $value], $id);
             header("Location: index.php?page=taxes&success=2");
             exit();
         }

@@ -13,6 +13,9 @@ function load_page_file($page) {
     if(str_contains($page, 'tax')) {
         return __DIR__ . "\..\admin\\taxes\\{$page}.php";
     }
+    else if(str_contains($page, 'brand')) {
+        return __DIR__ . "\..\admin\\brands\\{$page}.php";
+    }
     return __DIR__ . "/index.php";
 }
 
@@ -58,7 +61,7 @@ function edit_tax($id) {
     return $data;
 }
 
-function createUpdate($data, $id){
+function update_tax($data, $id){
   global $conn;
   
   $sql = $conn->prepare("UPDATE taxes 
@@ -74,6 +77,57 @@ function delete_tax($id) {
     global $conn;
     
     $sql = $conn->prepare("DELETE FROM taxes 
+                          WHERE id = :id");
+    $sql->execute(["id" => $id]);
+}
+
+function brands(){
+    global $conn;
+    $data = [];
+    $sql = $conn->prepare("SELECT * FROM brands");
+
+    $sql->execute();
+    $data["brands"] = $sql->fetchAll(PDO::FETCH_ASSOC);
+
+    return $data;
+}
+
+function createBrand($data){
+  global $conn;
+  
+  $sql = $conn->prepare("INSERT INTO `brands` (`name`) VALUES (:name)");
+  $sql->execute([
+    ...$data
+  ]);
+}
+
+function edit_brand($id) {
+    global $conn;
+    $data = [];
+    $sql = $conn->prepare("SELECT * FROM brands WHERE id = :id");
+
+    $sql->execute(["id" => $id]);
+    $data["brand"] = $sql->fetchAll(PDO::FETCH_ASSOC);
+
+    return $data;
+}
+
+function update_brand($data, $id){
+  global $conn;
+  
+  $sql = $conn->prepare("UPDATE brands 
+                        SET name = :name
+                        WHERE id = :id");
+  $sql->execute([
+      ...$data,
+      "id" => $id
+    ]);
+}
+
+function delete_brand($id) {
+    global $conn;
+    
+    $sql = $conn->prepare("DELETE FROM brands 
                           WHERE id = :id");
     $sql->execute(["id" => $id]);
 }

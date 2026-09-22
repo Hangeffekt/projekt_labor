@@ -16,9 +16,8 @@
         exit();
     }
 ?>
-
+<a href="index.php?page=create_tax">Create New Tax</a>
 <?php if($taxes):?>
-    <a href="index.php?page=create_tax">Create New Tax</a>
     <table>
         <thead>
             <tr>
