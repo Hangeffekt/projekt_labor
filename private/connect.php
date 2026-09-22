@@ -16,6 +16,9 @@ function load_page_file($page) {
     else if(str_contains($page, 'brand')) {
         return __DIR__ . "\..\admin\\brands\\{$page}.php";
     }
+    else if(str_contains($page, 'catalog')) {
+        return __DIR__ . "\..\admin\\catalogs\\{$page}.php";
+    }
     return __DIR__ . "/index.php";
 }
 
@@ -128,6 +131,57 @@ function delete_brand($id) {
     global $conn;
     
     $sql = $conn->prepare("DELETE FROM brands 
+                          WHERE id = :id");
+    $sql->execute(["id" => $id]);
+}
+
+function catalogs(){
+    global $conn;
+    $data = [];
+    $sql = $conn->prepare("SELECT * FROM catalogs");
+
+    $sql->execute();
+    $data["catalogs"] = $sql->fetchAll(PDO::FETCH_ASSOC);
+
+    return $data;
+}
+
+function createCatalog($data){
+  global $conn;
+  
+  $sql = $conn->prepare("INSERT INTO `catalogs` (`name`, `parent_id`, `visible`) VALUES (:name, :parent_id, :visible)");
+  $sql->execute([
+    ...$data
+  ]);
+}
+
+function edit_catalog($id) {
+    global $conn;
+    $data = [];
+    $sql = $conn->prepare("SELECT * FROM catalogs WHERE id = :id");
+
+    $sql->execute(["id" => $id]);
+    $data["catalog"] = $sql->fetchAll(PDO::FETCH_ASSOC);
+
+    return $data;
+}
+
+function update_catalog($data, $id){
+  global $conn;
+  
+  $sql = $conn->prepare("UPDATE catalogs 
+                        SET name = :name, parent_id = :parent_id, visible = :visible
+                        WHERE id = :id");
+  $sql->execute([
+      ...$data,
+      "id" => $id
+    ]);
+}
+
+function delete_catalog($id) {
+    global $conn;
+    
+    $sql = $conn->prepare("DELETE FROM catalogs 
                           WHERE id = :id");
     $sql->execute(["id" => $id]);
 }
