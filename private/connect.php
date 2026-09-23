@@ -19,6 +19,9 @@ function load_page_file($page) {
     else if(str_contains($page, 'catalog')) {
         return __DIR__ . "\..\admin\\catalogs\\{$page}.php";
     }
+    else if(str_contains($page, 'product')) {
+        return __DIR__ . "\..\admin\\products\\{$page}.php";
+    }
     return __DIR__ . "/index.php";
 }
 
@@ -184,6 +187,19 @@ function delete_catalog($id) {
     $sql = $conn->prepare("DELETE FROM catalogs 
                           WHERE id = :id");
     $sql->execute(["id" => $id]);
+}
+
+function products(){
+    global $conn;
+    $data = [];
+    $sql = $conn->prepare("SELECT products.*, b.name AS brand_name, c.name AS catalog_name FROM products
+        LEFT JOIN brands b ON products.brand_id = b.id
+        LEFT JOIN catalogs c ON products.catalog_id = c.id");
+
+    $sql->execute();
+    $data["products"] = $sql->fetchAll(PDO::FETCH_ASSOC);
+
+    return $data;
 }
 
 function getThreads($s_id){

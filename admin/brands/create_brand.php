@@ -2,7 +2,7 @@
 require_once "../private/connect.php";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $value = $_POST['value'] ?? null;
+    $value = $_POST['name'] ?? null;
 
     if ($value !== null) {
         $value = preg_replace('/[^a-zA-Z0-9-]/', '', $value);
