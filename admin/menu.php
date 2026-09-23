@@ -1,7 +1,7 @@
 <a href="index.php">Home</a>
-<a href="orders.php">Orders</a>
-<a href="products.php">Products</a>
-<a href="catalogs.php">Catalogs</a>
-<a href="brands.php">Brands</a>
-<a href="taxes.php">Taxes</a>
-<a href="users.php">Users</a>
+<a href="index.php?page=orders">Orders</a>
+<a href="index.php?page=products">Products</a>
+<a href="index.php?page=catalogs">Catalogs</a>
+<a href="index.php?page=brands">Brands</a>
+<a href="index.php?page=taxes">Taxes</a>
+<a href="index.php?page=users">Users</a>
