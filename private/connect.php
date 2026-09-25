@@ -211,49 +211,34 @@ function create_product($data){
   ]);
 }
 
-function getThreads($s_id){
+function edit_product($id) {
     global $conn;
-    $sql = $conn->prepare("SELECT DISTINCT t.id, t.name, t.author_name, t.section_id, t.is_archived, t.created_at, c.author_name AS c_author_name, c.created_at AS c_created_at
-        FROM thread AS t
-        LEFT JOIN comment AS c
-            ON c.thread_id = t.id 
-            AND c.created_at = (
-                SELECT MAX(created_at) 
-                FROM comment 
-                WHERE thread_id = t.id
-            )
-        WHERE t.section_id = :s_id
-        ORDER BY t.is_archived, c.created_at DESC");
+    $data = [];
+    $sql = $conn->prepare("SELECT * FROM products WHERE id = :id");
 
-    $sql->execute(["s_id" => $s_id]);
-    $query = $sql->fetchAll(PDO::FETCH_ASSOC);
-    return $query;
+    $sql->execute(["id" => $id]);
+    $data["product"] = $sql->fetchAll(PDO::FETCH_ASSOC);
+
+    return $data;
 }
 
-function createThread($id, $data){
+function update_product($data, $id){
   global $conn;
   
-  $sql = $conn->prepare("INSERT INTO `thread` (`name`, `author_name`, `content`, `section_id`) VALUES (:threadname, :name, :comment, :section_id)");
+  $sql = $conn->prepare("UPDATE products 
+                        SET product_name = :name, brand_id = :brand_id, tax_id = :tax_id, catalog_id = :catalog_id, ean = :ean, sale_price = :sale_price, visible = :visible
+                        WHERE id = :id");
   $sql->execute([
-    ...$data,
-    'section_id' => $id,
-  ]);
+      ...$data,
+      "id" => $id
+    ]);
 }
 
-function archived($id) {
-  global $conn;
-  
-  $sql = $conn->prepare("UPDATE thread 
-                        SET is_archived = 1 
-                        WHERE id = :id");
-  $sql->execute(["id" => $id]);
-}
-
-function deleteComment($id) {
-  global $conn;
-  
-  $sql = $conn->prepare("DELETE FROM comment 
-                        WHERE id = :id");
-  $sql->execute(["id" => $id]);
+function delete_product($id) {
+    global $conn;
+    
+    $sql = $conn->prepare("DELETE FROM products 
+                          WHERE id = :id");
+    $sql->execute(["id" => $id]);
 }
 ?>

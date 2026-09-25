@@ -6,14 +6,17 @@
         $id = $_GET['product_delete_id'] ?? '';
         $id = preg_replace('/[^0-9]/', '', $id);
 
-        if(empty(edit_product($id))) {
+        $data = edit_product($id);
+        $product_exists = $data['product'] ?? [];
+        if(empty($product_exists)) {
             http_response_code(404);
-            die('Hiba: a megadott id-hez nem található termék.');
+            $errors[] = 'Hiba: a megadott id-hez nem található termék.';
         }
-
-        delete_product($id);
-        header("Location: index.php?page=products&success=1");
-        exit();
+        else{
+            delete_product($id);
+            header("Location: index.php?page=products&success=1");
+            exit();
+        }
     }
 ?>
 <a href="index.php?page=create_product">Create New Product</a>
