@@ -202,6 +202,15 @@ function products(){
     return $data;
 }
 
+function create_product($data){
+  global $conn;
+  
+  $sql = $conn->prepare("INSERT INTO `products` (`brand_id`, `product_name`, `tax_id`, `catalog_id`, `ean`, `sale_price`, `visible`) VALUES (:brand_id, :product_name, :tax_id, :catalog_id, :ean, :sale_price, :visible)");
+  $sql->execute([
+    ...$data
+  ]);
+}
+
 function getThreads($s_id){
     global $conn;
     $sql = $conn->prepare("SELECT DISTINCT t.id, t.name, t.author_name, t.section_id, t.is_archived, t.created_at, c.author_name AS c_author_name, c.created_at AS c_created_at
