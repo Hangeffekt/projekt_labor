@@ -15,3 +15,13 @@ function load_page_file($page) {
     }
     return __DIR__ . "/index.php";
 }
+
+function load_categories($id) {
+    global $conn;
+    $data = [];
+    $sql = $conn->prepare("SELECT * FROM catalogs WHERE parent_id = :id");
+    $sql->execute(['id' => $id]);
+    $data["categories"] = $sql->fetchAll(PDO::FETCH_ASSOC);
+
+    return $data;
+}
