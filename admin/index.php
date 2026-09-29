@@ -51,3 +51,4 @@ $file = load_page_file($page);
 
 </body>
 ?>
+</html>
