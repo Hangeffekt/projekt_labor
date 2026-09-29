@@ -50,5 +50,4 @@ $file = load_page_file($page);
     </div>
 
 </body>
-?>
 </html>
