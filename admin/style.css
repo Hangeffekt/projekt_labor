@@ -10,3 +10,12 @@ body {
     color: #2a403d;
     padding: 20px;
 }
+
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    background: #c3cbd6;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+}
