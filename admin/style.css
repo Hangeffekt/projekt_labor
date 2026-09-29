@@ -28,3 +28,15 @@ a {
 a:hover {
     text-decoration: underline;
 }
+
+.container > a[href*="index.php"] {
+    display: inline-block;
+    padding: 8px 14px;
+    margin-right: 5px;
+    margin-bottom: 20px;
+    background-color: #2a403d;
+    color: #c3cbd6;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    transition: background-color 0.2s;
+}
