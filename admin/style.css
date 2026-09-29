@@ -3,3 +3,10 @@
     margin: 0;
     padding: 0;
 }
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #c3cbd6;
+    color: #2a403d;
+    padding: 20px;
+}
