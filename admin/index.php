@@ -8,6 +8,14 @@ $page = preg_replace('/[^a-zA-Z0-9-_]/', '', $page);
 
 $file = load_page_file($page);
 ?>
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adminisztrációs felület</title>
+    <link rel="stylesheet" href="style.css">
+</head>
 
 <?php
     if (file_exists($file)) { ?>
