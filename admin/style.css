@@ -82,3 +82,10 @@ th {
     color: #c3cbd6;
     font-weight: 600;
 }
+
+tr:nth-child(even) {
+    background-color: #748b6f;
+}
+
+tr:hover {
+    
