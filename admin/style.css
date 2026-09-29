@@ -40,3 +40,23 @@ a:hover {
     font-size: 0.9rem;
     transition: background-color 0.2s;
 }
+
+.container > a[href*="index.php"]:hover {
+    background-color: #748b6f;
+    text-decoration: none;
+}
+
+.container > a[href*="create_"] {
+    display: inline-block;
+    margin-bottom: 15px;
+    padding: 9px 16px;
+    background-color: #748b6f;
+    color: #c3cbd6;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+.container > a[href*="create_"]:hover {
+    background-color: #2a403d;
+    text-decoration: none;
+}
