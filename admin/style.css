@@ -90,3 +90,14 @@ tr:nth-child(even) {
 tr:hover {
     background-color: #748b6f;
 }
+
+td a[href*="edit_"] {
+    color: #2a403d;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+td a[href*="delete_id"] {
+    color: #D05663;
+    font-weight: bold;
+}
