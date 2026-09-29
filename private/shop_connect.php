@@ -25,3 +25,15 @@ function load_categories($id) {
 
     return $data;
 }
+
+function main_page_products() {
+    global $conn;
+    $data = [];
+
+    $sql = $conn->prepare("SELECT * FROM products where show_front_page = 1 ORDER BY sale_price DESC LIMIT 10");
+    $sql->execute();
+    $sql = $sql->fetchAll(PDO::FETCH_ASSOC);
+    $data["products"] = $sql;
+
+    return $data;
+}
