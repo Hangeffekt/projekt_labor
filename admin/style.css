@@ -71,3 +71,14 @@ table {
 table, th, td {
     border: 1px solid #2a403d;
 }
+
+th, td {
+    padding: 12px;
+    text-align: left;
+}
+
+th {
+    background-color: #2a403d;
+    color: #c3cbd6;
+    font-weight: 600;
+}
