@@ -13,6 +13,9 @@ function load_page_file($page) {
     if(str_contains($page, 'main')) {
         return __DIR__ . "\..\\" . $page . ".php";
     }
+    else if(str_contains($page, 'category')) {
+        return __DIR__ . "\..\\" . $page . ".php";
+    }
     return __DIR__ . "/index.php";
 }
 
@@ -30,8 +33,24 @@ function main_page_products() {
     global $conn;
     $data = [];
 
-    $sql = $conn->prepare("SELECT * FROM products where show_front_page = 1 ORDER BY sale_price DESC LIMIT 10");
+    $sql = $conn->prepare("SELECT * FROM products 
+    inner join brands on products.brand_id = brands.id
+    where show_front_page = 1 and visible = 1 ORDER BY sale_price LIMIT 10");
     $sql->execute();
+    $sql = $sql->fetchAll(PDO::FETCH_ASSOC);
+    $data["products"] = $sql;
+
+    return $data;
+}
+
+function category_products($id) {
+    global $conn;
+    $data = [];
+
+    $sql = $conn->prepare("SELECT * FROM products
+    inner join brands on products.brand_id = brands.id 
+    where catalog_id = :id and visible = 1 ORDER BY sale_price ");
+    $sql->execute(['id' => $id]);
     $sql = $sql->fetchAll(PDO::FETCH_ASSOC);
     $data["products"] = $sql;
 
