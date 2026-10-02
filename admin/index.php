@@ -1,8 +1,21 @@
 <?php
 require_once "../private/connect.php";
+session_start();
 $errors = [];
 $success = [];
-$page = isset($_GET['page']) ? $_GET['page'] : 'kezdolap';
+
+if(!isset($_SESSION['is_logged_in']) || $_SESSION['is_logged_in'] === null) {
+    $page = "login";
+}
+else {
+    $page = isset($_GET['page']) ? $_GET['page'] : 'main';
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['logout'])) {
+    session_destroy();
+    header("Location: index.php");
+    exit();
+}
 
 $page = preg_replace('/[^a-zA-Z0-9-_]/', '', $page);
 
@@ -20,8 +33,10 @@ $file = load_page_file($page);
 <body>
 
     <div class="container">
-        <?php if (file_exists($file)) { ?>
-            <?php require_once("menu.php");
+        <?php if(file_exists($file)) { 
+            if(isset($_SESSION['is_logged_in']) && $_SESSION['is_logged_in'] != null) {
+                require_once("menu.php");
+            }
             include $file; ?>
             
         <?php } else {
