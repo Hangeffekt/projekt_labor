@@ -30,7 +30,6 @@
     align-items: center;
     gap: 25px;
     padding: 10px 25px;
-    flex: 1;
 }
 
 .bottom-content {
@@ -40,6 +39,7 @@
     gap: 25px;
     padding: 10px 25px;
     flex: 1;
+    min-width: 0;
 }
 
 .categories-button {
@@ -58,22 +58,19 @@
 .cart-button {
     display: flex;
     align-items: center;
-    gap: 15px;
-    border: none;
-    background: transparent;
-    font-size: 17px;
-    font-weight: 400;
-    padding: 10px 0px;
-    white-space: nowrap;
-    cursor: pointer;
+    gap: 10px;
+    text-decoration: none;
+    color: #333;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.cart-icon {
+    font-size: 25px;
 }
 
 .menu-icon {
     font-size: 24px;
-}
-
-.cart-icon, search-icon {
-    size: 0px;
 }
 
 .search-form {
@@ -102,8 +99,47 @@
     cursor: pointer;
 }
 
-.cart-button {
-    font-size: 25px;
-    text-decoration: none;
+.search-icon {
+    font-size: 24px;
+}
+
+.category-item {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    width: 100%;
+}
+
+.category-tabs {
     color: #333;
+    text-decoration: none;
+    font-size: 16px;
+    padding: 5px 0;
+}
+
+    .category-tabs:hover {
+        color: #19d858;
+    }
+
+.category-toggle {
+    grid-column: 2;
+    grid-row: 1;
+    border: none;
+    background: transparent;
+    color: #333;
+    cursor: pointer;
+    padding: 5px 10px;
+}
+
+.category-toggle:hover {
+    color: #19d858;
+}
+
+.offcanvas-body ul {
+    margin: 0;
+    padding-left: 0;
+}
+
+.padding-values {
+    padding: 0px 20px 0px;
 }

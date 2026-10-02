@@ -8,11 +8,26 @@
     }
     
     foreach($subcategories["categories"] as $category): ?>
-        <li><a href="index.php?page=category&id=<?= $category['id'] ?>"><?= $category['name'] ?></a></li>
-        <?php 
-            $subcategories = load_categories($category['id']);
-            if(!empty($subcategories["categories"])) {
-                include "category_menu.php";
-        }?>
+        <li class="category-item"><a href="index.php?page=category&id=<?=$category['id'] ?>" class="category-tabs"><?= $category['name'] ?></a>
+            <?php 
+                $children = load_categories($category['id']);
+                if(!empty($children["categories"])): ?>
+                    <button
+                        class="category-toggle"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#cat<?= $category['id'] ?>">
+                        <i class="bi bi-chevron-down"></i>
+                    </button>
+                    <div class="collapse" id="cat<?= $category['id'] ?>">
+                        <div class="new-container padding-values">
+                           <?php
+                            $subcategories = $children;
+                            include "category_menu.php";
+                            ?>
+                        </div>
+                    </div>
+            <?php endif; ?>
+        </li>
     <?php endforeach; ?>
 </ul>
