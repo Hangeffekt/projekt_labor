@@ -7,6 +7,7 @@
 
     $data = edit_catalog($_GET['id']);
     $catalog = $data['catalog'] ?? [];
+    $errors = [];
 
     if(empty($data['catalog'])) {
         http_response_code(404);
@@ -19,10 +20,7 @@
         $parent_id = $_POST['parent_id'] ?? '';
         $visible = isset($_POST['visible']) ? 1 : 0;
 
-        if ($name !== null) {
-            $name = preg_replace('/[^a-zA-Z0-9-]/', '', $name);
-        }
-        else {
+        if ($name == '') {
             http_response_code(400);
             $errors[] = 'Hiba: a name mező kötelező.';
         }
@@ -41,12 +39,17 @@
             $visible = 0;
         }
 
+        if (checkCatalogExists($name)) {
+            $errors[] = "Ez a név már létezik.";
+        }
+
         if (empty($errors)) {
             update_catalog(['name' => $name, 'parent_id' => $parent_id, 'visible' => $visible], $id);
             header("Location: index.php?page=catalogs&success=2");
             exit();
         }
     }
+    include("error.php");
 ?>
 
 <?php if (!empty($data)): ?>

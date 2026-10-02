@@ -7,6 +7,7 @@
 
     $data = edit_brand($_GET['id']);
     $brand = $data['brand'] ?? [];
+    $errors = [];
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $id = $_GET['id'] ?? '';
@@ -22,6 +23,10 @@
             $errors[] = 'Hiba: a megadott id-hez nem található márka.';
         }
 
+        if (brand_exists($name)) {
+            $errors[] = "Ez a név már létezik.";
+        }
+
         if (empty($errors)) {
             $name = preg_replace('/[^a-zA-Z0-9-]/', '', $name);
             update_brand(['name' => $name ], $id);
@@ -29,6 +34,7 @@
             exit();
         }
     }
+    include("error.php");
 ?>
 
 <form method="POST">

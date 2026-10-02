@@ -17,6 +17,7 @@
     }
 ?>
 <a href="index.php?page=create_tax">Create New Tax</a>
+<?php include("error.php"); ?>
 <?php if($taxes):?>
     <table>
         <thead>

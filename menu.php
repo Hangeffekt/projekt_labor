@@ -1,4 +1,5 @@
 <ul>
+    <li><a href="index.php">Főoldal</a></li>
     <?php
     if(!isset($subcategories)) {
         $subcategories = load_categories(0);

@@ -22,6 +22,9 @@ function load_page_file($page) {
     else if(str_contains($page, 'product')) {
         return __DIR__ . "\..\admin\\products\\{$page}.php";
     }
+    else if(str_contains($page, 'main')) {
+        return __DIR__ . "\..\admin\\{$page}.php";
+    }
     return __DIR__ . "/index.php";
 }
 
@@ -39,7 +42,8 @@ function last_ten_orders(){
 function taxes(){
     global $conn;
     $data = [];
-    $sql = $conn->prepare("SELECT * FROM taxes");
+    $sql = $conn->prepare("SELECT * FROM taxes
+    order BY value ASC");
 
     $sql->execute();
     $data["taxes"] = $sql->fetchAll(PDO::FETCH_ASSOC);
@@ -54,6 +58,13 @@ function createTax($data){
   $sql->execute([
     ...$data
   ]);
+}
+
+function checkTaxExists($value) {
+    global $conn;
+    $sql = $conn->prepare("SELECT COUNT(*) FROM taxes WHERE value = :value");
+    $sql->execute(['value' => $value]);
+    return $sql->fetchColumn() > 0;
 }
 
 function edit_tax($id) {
@@ -90,12 +101,20 @@ function delete_tax($id) {
 function brands(){
     global $conn;
     $data = [];
-    $sql = $conn->prepare("SELECT * FROM brands");
+    $sql = $conn->prepare("SELECT * FROM brands
+    order BY name ASC");
 
     $sql->execute();
     $data["brands"] = $sql->fetchAll(PDO::FETCH_ASSOC);
 
     return $data;
+}
+
+function brand_exists($name) {
+    global $conn;
+    $sql = $conn->prepare("SELECT COUNT(*) FROM brands WHERE name = :name");
+    $sql->execute(['name' => $name]);
+    return $sql->fetchColumn() > 0;
 }
 
 function createBrand($data){
@@ -141,12 +160,20 @@ function delete_brand($id) {
 function catalogs(){
     global $conn;
     $data = [];
-    $sql = $conn->prepare("SELECT * FROM catalogs");
+    $sql = $conn->prepare("SELECT * FROM catalogs
+    order BY name ASC");
 
     $sql->execute();
     $data["catalogs"] = $sql->fetchAll(PDO::FETCH_ASSOC);
 
     return $data;
+}
+
+function checkCatalogExists($name) {
+    global $conn;
+    $sql = $conn->prepare("SELECT COUNT(*) FROM catalogs WHERE name = :name");
+    $sql->execute(['name' => $name]);
+    return $sql->fetchColumn() > 0;
 }
 
 function createCatalog($data){

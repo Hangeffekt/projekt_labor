@@ -1,15 +1,13 @@
 <?php
 require_once "../private/connect.php";
+$errors = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name = $_POST['name'] ?? null;
     $parent_id = $_POST['parent'] ?? null;
     $visible = $_POST['visible'] ?? null;
 
-    if ($name !== null) {
-        $name = preg_replace('/[^a-zA-Z0-9-]/', '', $name);
-    }
-    else {
+    if ($name == null) {
         http_response_code(400);
         $errors[] = 'Hiba: a name mező kötelező.';
     }
@@ -28,13 +26,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $visible = 0;
     }
 
+    if (checkCatalogExists($name)) {
+        $errors[] = "Ez a név már létezik.";
+    }
+
     if (empty($errors)) {
+        
         createCatalog(['name' => $name, 'parent_id' => $parent_id, 'visible' => $visible]);
         header("Location: index.php?page=catalogs&success=3");
         exit();
     }
 
 }
+include("error.php");
 ?>
 
 <form method="POST">

@@ -17,6 +17,7 @@
     }
 ?>
 <a href="index.php?page=create_brand">Create New Brand</a>
+<?php include("error.php"); ?>
 <?php if($brands):?>
     <table>
         <thead>

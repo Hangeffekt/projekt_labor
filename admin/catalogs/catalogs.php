@@ -17,6 +17,7 @@
     }
 ?>
 <a href="index.php?page=create_catalog">Create New Catalog</a>
+<?php include("error.php"); ?>
 <?php if($catalogs):?>
     <table>
         <thead>
