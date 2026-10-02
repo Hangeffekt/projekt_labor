@@ -56,14 +56,16 @@
             $errors[] = 'Hiba: a megadott id-hez nem található katalógus.';
         }
 
-        if ($name !== null && $ean !== null && $sale_price !== null) {
-            $ean = preg_replace('/[^0-9]/', '', $ean);
-            $sale_price = preg_replace('/[^0-9]/', '', $sale_price);
+        if(checkProductExists($name)){
+            $errors[] = "Ez a név már létezik.";
         }
-        else {
-            http_response_code(400);
-            $errors[] = 'Hiba: a name, ean és sale_price mezők kötelezőek.';
+
+        if(checkEanExists($ean)){
+            $errors[] = "Ez az EAN már létezik.";
         }
+
+        $ean = preg_replace('/[^0-9]/', '', $ean);
+        $sale_price = preg_replace('/[^0-9]/', '', $sale_price);
 
         if ($visible == '1') {
             $visible = 1;
@@ -83,6 +85,7 @@
             exit();
         }
     }
+    include("error.php");
 ?>
 
 <?php if (!empty($data)): ?>

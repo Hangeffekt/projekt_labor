@@ -238,6 +238,20 @@ function create_product($data){
   ]);
 }
 
+function checkProductExists($name) {
+    global $conn;
+    $sql = $conn->prepare("SELECT COUNT(*) FROM products WHERE product_name = :name");
+    $sql->execute(['name' => $name]);
+    return $sql->fetchColumn() > 0;
+}
+
+function checkEanExists($ean) {
+    global $conn;
+    $sql = $conn->prepare("SELECT COUNT(*) FROM products WHERE ean = :ean");
+    $sql->execute(['ean' => $ean]);
+    return $sql->fetchColumn() > 0;
+}
+
 function edit_product($id) {
     global $conn;
     $data = [];
