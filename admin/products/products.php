@@ -20,6 +20,7 @@
     }
 ?>
 <a href="index.php?page=create_product">Create New Product</a>
+<?php include("error.php"); ?>
 <?php if($products):?>
     <table>
         <thead>

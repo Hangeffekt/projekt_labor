@@ -7,7 +7,8 @@
 
     $data = edit_tax($_GET['id']);
     $tax = $data['tax'] ?? [];
-
+    $errors = [];
+    
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $id = $_GET['id'] ?? '';
         $value = $_POST['value'] ?? '';
@@ -22,6 +23,11 @@
             $errors[] = 'Hiba: a megadott id-hez nem található adó.';
         }
 
+        if (checkTaxExists($value)) {
+            createTax(['value' => $value]);
+            $errors[] = "Ez az érték már létezik.";
+        }
+
         if (empty($errors)) {
             $value = preg_replace('/[^0-9.]/', '', $value);
             update_tax(['value' => $value], $id);
@@ -29,10 +35,11 @@
             exit();
         }
     }
+    include("error.php");
 ?>
 
 <form method="POST">
     <label for="value">Value:</label>
-    <input type="text" name="value" id="value" value="<?= $tax[0]['value'] ?? '' ?>" required>
+    <input type="number" name="value" id="value" value="<?= $tax[0]['value'] ?? '' ?>" required>
     <button type="submit">Update Tax</button>
 </form>

@@ -9,6 +9,7 @@ try {
   echo "Connection failed: " . $e->getMessage();
 }
 
+
 function load_page_file($page) {
     if(str_contains($page, 'tax')) {
         return __DIR__ . "\..\admin\\taxes\\{$page}.php";
@@ -22,7 +23,22 @@ function load_page_file($page) {
     else if(str_contains($page, 'product')) {
         return __DIR__ . "\..\admin\\products\\{$page}.php";
     }
-    return __DIR__ . "/index.php";
+    else if(str_contains($page, 'main')) {
+        return __DIR__ . "\..\admin\\{$page}.php";
+    }
+    else if(str_contains($page, 'admin')) {
+        return __DIR__ . "\..\admin\\adminpages\\{$page}.php";
+    }
+    else if(str_contains($page, 'order')) {
+        return __DIR__ . "\..\admin\\orders\\{$page}.php";
+    }
+    else if(str_contains($page, 'login')) {
+        return __DIR__ . "\..\admin\\login.php";
+    }
+    else {
+        http_response_code(404);
+        die('Hiba: az oldal nem található.');
+    }
 }
 
 function last_ten_orders(){
@@ -39,7 +55,8 @@ function last_ten_orders(){
 function taxes(){
     global $conn;
     $data = [];
-    $sql = $conn->prepare("SELECT * FROM taxes");
+    $sql = $conn->prepare("SELECT * FROM taxes
+    order BY value ASC");
 
     $sql->execute();
     $data["taxes"] = $sql->fetchAll(PDO::FETCH_ASSOC);
@@ -54,6 +71,13 @@ function createTax($data){
   $sql->execute([
     ...$data
   ]);
+}
+
+function checkTaxExists($value) {
+    global $conn;
+    $sql = $conn->prepare("SELECT COUNT(*) FROM taxes WHERE value = :value");
+    $sql->execute(['value' => $value]);
+    return $sql->fetchColumn() > 0;
 }
 
 function edit_tax($id) {
@@ -90,12 +114,20 @@ function delete_tax($id) {
 function brands(){
     global $conn;
     $data = [];
-    $sql = $conn->prepare("SELECT * FROM brands");
+    $sql = $conn->prepare("SELECT * FROM brands
+    order BY name ASC");
 
     $sql->execute();
     $data["brands"] = $sql->fetchAll(PDO::FETCH_ASSOC);
 
     return $data;
+}
+
+function brand_exists($name) {
+    global $conn;
+    $sql = $conn->prepare("SELECT COUNT(*) FROM brands WHERE name = :name");
+    $sql->execute(['name' => $name]);
+    return $sql->fetchColumn() > 0;
 }
 
 function createBrand($data){
@@ -141,12 +173,20 @@ function delete_brand($id) {
 function catalogs(){
     global $conn;
     $data = [];
-    $sql = $conn->prepare("SELECT * FROM catalogs");
+    $sql = $conn->prepare("SELECT * FROM catalogs
+    order BY name ASC");
 
     $sql->execute();
     $data["catalogs"] = $sql->fetchAll(PDO::FETCH_ASSOC);
 
     return $data;
+}
+
+function checkCatalogExists($name) {
+    global $conn;
+    $sql = $conn->prepare("SELECT COUNT(*) FROM catalogs WHERE name = :name");
+    $sql->execute(['name' => $name]);
+    return $sql->fetchColumn() > 0;
 }
 
 function createCatalog($data){
@@ -211,6 +251,20 @@ function create_product($data){
   ]);
 }
 
+function checkProductExists($name) {
+    global $conn;
+    $sql = $conn->prepare("SELECT COUNT(*) FROM products WHERE product_name = :name");
+    $sql->execute(['name' => $name]);
+    return $sql->fetchColumn() > 0;
+}
+
+function checkEanExists($ean) {
+    global $conn;
+    $sql = $conn->prepare("SELECT COUNT(*) FROM products WHERE ean = :ean");
+    $sql->execute(['ean' => $ean]);
+    return $sql->fetchColumn() > 0;
+}
+
 function edit_product($id) {
     global $conn;
     $data = [];
@@ -240,5 +294,71 @@ function delete_product($id) {
     $sql = $conn->prepare("DELETE FROM products 
                           WHERE id = :id");
     $sql->execute(["id" => $id]);
+}
+
+function admins(){
+    global $conn;
+    $data = [];
+    $sql = $conn->prepare("SELECT * FROM admins
+    order BY name ASC");
+
+    $sql->execute();
+    $data["admins"] = $sql->fetchAll(PDO::FETCH_ASSOC);
+
+    return $data;
+}
+
+function checkAdminExists($email) {
+    global $conn;
+    $sql = $conn->prepare("SELECT COUNT(*) FROM admins WHERE email = :email");
+    $sql->execute(['email' => $email]);
+    return $sql->fetchColumn() > 0;
+}
+
+function create_admin($data){
+  global $conn;
+  
+  $sql = $conn->prepare("INSERT INTO `admins` (`name`, `email`, `password`) VALUES (:name, :email, :password)");
+  $sql->execute([
+    ...$data
+  ]);
+}
+
+function edit_admin($id) {
+    global $conn;
+    $data = [];
+    $sql = $conn->prepare("SELECT * FROM admins WHERE id = :id");
+
+    $sql->execute(["id" => $id]);
+    $data["admin"] = $sql->fetchAll(PDO::FETCH_ASSOC);
+
+    return $data;
+}
+
+function update_admin($data, $id){
+  global $conn;
+  
+  $sql = $conn->prepare("UPDATE admins 
+                        SET name = :name, email = :email
+                        WHERE id = :id");
+  $sql->execute([
+      ...$data,
+      "id" => $id
+    ]);
+}
+
+function delete_admin($id) {
+    global $conn;
+    
+    $sql = $conn->prepare("DELETE FROM admins 
+                          WHERE id = :id");
+    $sql->execute(["id" => $id]);
+}
+
+function getAdminByEmail($email) {
+    global $conn;
+    $sql = $conn->prepare("SELECT * FROM admins WHERE email = :email");
+    $sql->execute(['email' => $email]);
+    return $sql->fetch(PDO::FETCH_ASSOC);
 }
 ?>
