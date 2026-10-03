@@ -25,6 +25,8 @@
         </div>
     </div>
 </header>
+<?php include "breadcrumb.php"; ?>
+
 <div class="offcanvas offcanvas-start" tabindex="-1" id="categoryMenu">
     <div class="offcanvas-header">
         logo megint yay

@@ -1,3 +1,9 @@
+.header-head {
+    background: #19d858;
+    height: 15px;
+    width: 100%;
+}
+
 .site-header {
     display: flex;
     align-items: stretch;
@@ -22,7 +28,7 @@
 }
 
 .header-top {
-    height: 70px;
+    height: 60px;
 }
 
 .header-bottom {
@@ -49,7 +55,7 @@
     border: none;
     background: transparent;
     color: #19d858;
-    font-size: 17px;
+    font-size: 16px;
     font-weight: 600;
     white-space: nowrap;
     cursor: pointer;
@@ -61,7 +67,7 @@
     gap: 10px;
     text-decoration: none;
     color: #333;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 600;
 }
 
@@ -76,7 +82,7 @@
 .search-form {
     display: flex;
     flex: 1;
-    height: 45px;
+    height: 40px;
     min-width: 0;
 }
 
@@ -117,9 +123,9 @@
     padding: 5px 0;
 }
 
-    .category-tabs:hover {
-        color: #19d858;
-    }
+.category-tabs:hover {
+    color: #19d858;
+}
 
 .category-toggle {
     grid-column: 2;
@@ -142,4 +148,36 @@
 
 .padding-values {
     padding: 0px 20px 0px;
+}
+
+.breadcrumb {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 9px;
+    padding: 13px 25px;
+    margin: 0;
+    background: #fff;
+    font-size: 13px;
+    color: #999;
+}
+
+.breadcrumb a {
+    color: #777;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.breadcrumb a:hover {
+    color: #19b94d;
+}
+
+.breadcrumb-separator {
+    color: #bbb;
+    font-size: 12px;
+}
+
+.breadcrumb .active {
+    color: #19b94d;
+    font-weight: 600;
 }
