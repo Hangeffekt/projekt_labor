@@ -11,6 +11,7 @@
 <?php include('error.php'); ?>
 
 <?php
+    include "breadcrumb.php";
     if (empty($product)): ?>
         Nincs megjeleníthető termék!
     <?php else: ?>

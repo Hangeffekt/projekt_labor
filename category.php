@@ -11,6 +11,7 @@ if (!isset($_GET['id'])) {
 <?php include('error.php'); ?>
 
 <?php
+    include "breadcrumb.php";
     if (empty($products)): ?>
         nincs megjeleníthető termék
     <?php else: ?>

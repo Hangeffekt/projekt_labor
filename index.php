@@ -1,4 +1,5 @@
 <?php
+ob_start();
 session_start();
 require_once "private/shop_connect.php";
 $errors = [];
@@ -92,3 +93,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' and isset($_POST['add_to_cart'])) {
         }
     ?>
 </div>
+<?php ob_end_flush(); ?>

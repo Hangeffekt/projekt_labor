@@ -4,60 +4,143 @@
     $data = $_SESSION["delivery_data"] ?? [];
     $delivery = $data;
     $total = 0;
+
     if (empty($carts)) {
         header("Location: index.php?page=cart&error=8");
         exit;
     }
+
     if (empty($delivery)) {
         header("Location: index.php?page=delivery&error=9");
         exit;
     }
 
     if(isset($_POST['submit_payment'])) {
-        // Payment processing logic here
-        // For example, you can integrate with a payment gateway API
-
-        // After successful payment, clear the cart and delivery data
         save_cart_data($_SESSION["cart_data"]);
         save_delivery_data($_SESSION["delivery_data"]);
         unset($_SESSION["cart_data"]);
         unset($_SESSION["delivery_data"]);
 
-        // Redirect to a success page or order confirmation page
         header("Location: index.php?page=success");
         exit;
     }
-    ?>
+?>
 
-    <?php foreach($carts as $cart): 
-        $product = product_details($cart["id"]);
-        $product = $product["product"];
-        $total += $product["sale_price"] * $cart["quantity"];
-        ?>
-        <div>
-            <h3><?= $product["brand_name"]; ?> <?= $product["product_name"]; ?></h3>
-            <p>Ár: <?= $product["sale_price"]; ?> Ft</p>
-            <p>Mennyiség: <?= $cart["quantity"]; ?> db</p>
-            <p>Összeg: <?= $product["sale_price"] * $cart["quantity"]; ?> Ft</p>
+<div class="payment-page">
+    <h2 class="page-title">Rendelés összesítése</h2>
+    <div class="payment-layout">
+        <div class="payment-main">
+            <div class="payment-section">
+                <h3>
+                    <i class="bi bi-bag"></i>
+                    Megrendelt termékek
+                </h3>
+                <?php foreach($carts as $cart): 
+                    $product = product_details($cart["id"]);
+                    $product = $product["product"];
+                    $total += $product["sale_price"] * $cart["quantity"];
+                ?>
+                    <div class="payment-product">
+                        <div class="payment-product-image">
+                            <img src="<?= $product["image"]; ?>" 
+                                 alt="<?= $product["product_name"]; ?>">
+                        </div>
+                        <div class="payment-product-info">
+                            <h4><?= $product["brand_name"]; ?> <?= $product["product_name"]; ?></h4>
+                            <p><?= $product["sale_price"]; ?> Ft / db</p>
+                            <span>Mennyiség: <?= $cart["quantity"]; ?> db</span>
+                        </div>
+                        <strong class="payment-product-total">
+                            <?= $product["sale_price"] * $cart["quantity"]; ?> Ft
+                        </strong>
+                    </div>
+                <?php endforeach; ?>
+                <div class="payment-total">
+                    <span>Végösszeg</span>
+                    <strong><?= $total; ?> Ft</strong>
+                </div>
+            </div>
+
+            <div class="payment-section">
+                <h3>
+                    <i class="bi bi-truck"></i>
+                    Szállítási adatok
+                </h3>
+                <div class="payment-info-grid">
+                    <div class="payment-info-item">
+                        <span>Név</span>
+                        <strong><?= $delivery["vezeteknev"] ?> <?= $delivery["keresztnev"] ?></strong>
+                    </div>
+                    <div class="payment-info-item">
+                        <span>Email</span>
+                        <strong><?= $delivery["email"] ?></strong>
+                    </div>
+                    <div class="payment-info-item">
+                        <span>Telefonszám</span>
+                        <strong><?= $delivery["telefonszam"] ?></strong>
+                    </div>
+                    <div class="payment-info-item">
+                        <span>Cím</span>
+                        <strong><?= $delivery["irsz"] ?> <?= $delivery["cim"] ?></strong>
+                    </div>
+                </div>
+            </div>
+
+            <div class="payment-section">
+                <h3>
+                    <i class="bi bi-receipt"></i>
+                    Számlázási adatok
+                </h3>
+                <?php if($delivery["invoice"]): ?>
+                    <div class="payment-info-grid">
+                        <div class="payment-info-item">
+                            <span>Név</span>
+                            <strong><?= $delivery["name"] ?></strong>
+                        </div>
+                        <div class="payment-info-item">
+                            <span>Adószám</span>
+                            <strong><?= $delivery["tax_number"] ?></strong>
+                        </div>
+                        <div class="payment-info-item">
+                            <span>Cím</span>
+                            <strong><?= $delivery["invoice_irsz"] ?> <?= $delivery["invoice_cim"] ?></strong>
+                        </div>
+                    </div>
+                <?php else: ?>
+                    <div class="payment-info-grid">
+                        <div class="payment-info-item">
+                            <span>Név</span>
+                            <strong><?= $delivery["vezeteknev"] ?> <?= $delivery["keresztnev"] ?></strong>
+                        </div>
+                        <div class="payment-info-item">
+                            <span>Cím</span>
+                            <strong><?= $delivery["irsz"] ?> <?= $delivery["cim"] ?></strong>
+                        </div>
+                    </div>
+                <?php endif; ?>
+            </div>
         </div>
-    <?php endforeach; ?>
-    <p><strong>Összeg: <?= $total; ?> Ft</strong></p>
 
-    <h5>Szállítási adatok</h5>
-    <p>Név: <?= $delivery["vezeteknev"] ?> <?= $delivery["keresztnev"] ?></p>
-    <p>Email: <?= $delivery["email"] ?></p>
-    <p>Telefonszám: <?= $delivery["telefonszam"] ?></p>
-    <p>Cím: <?= $delivery["irsz"] ?> <?= $delivery["cim"] ?></p>
-    <h5>Számlázási adatok</h5>
-    <?php if($delivery["invoice"]): ?>
-        <p>Név: <?= $delivery["name"] ?></p>
-        <p>Adószám: <?= $delivery["tax_number"] ?></p>
-        <p>Cím: <?= $delivery["invoice_irsz"] ?> <?= $delivery["invoice_cim"] ?></p>
-    <?php else: ?>
-        <p>Név: <?= $delivery["vezeteknev"] ?> <?= $delivery["keresztnev"] ?></p>
-        <p>Cím: <?= $delivery["irsz"] ?> <?= $delivery["cim"] ?></p>
-    <?php endif; ?>
-    <form method="post" action="index.php?page=payment">
-        <button type="submit" name="submit_payment">Fizetés</button>
-    </form>
-    <a href="index.php?page=delivery">Vissza</a>
+        <div class="payment-summary">
+            <h3>Rendelés összesítése</h3>
+            <div class="payment-summary-row">
+                <span>Termékek összesen</span>
+                <strong><?= $total; ?> Ft</strong>
+            </div>
+            <div class="payment-summary-total">
+                <span>Fizetendő összeg</span>
+                <strong><?= $total; ?> Ft</strong>
+            </div>
+            <form method="post" action="index.php?page=payment">
+                <button type="submit" name="submit_payment" class="payment-button">
+                    <i class="bi bi-check-circle"></i>
+                    Fizetés
+                </button>
+            </form>
+            <a href="index.php?page=delivery" class="back-button">
+                <i class="bi bi-arrow-left"></i>
+                Vissza a szállításhoz
+            </a>
+        </div>
+    </div>
+</div>
