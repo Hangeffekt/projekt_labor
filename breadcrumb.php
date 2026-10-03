@@ -31,7 +31,7 @@ function find_category($category, $id) {
 function get_breadcrumbs($category_id) {
     $breadcrumbs = [];
     while ($category_id != 0) {
-        $category = get_category_by_id($category_id);
+        $category = get_category($category_id);
         if (!$category) {
             break;
         }
@@ -63,6 +63,30 @@ function get_breadcrumbs($category_id) {
         <?php endif; ?>
     <?php
         endforeach;
+
+    elseif (isset($_GET['id']) && $_GET['page'] === 'product'):
+        $product_data = product_details((int) $_GET['id']);
+        $product = $product_data['product'];
+        if ($product):
+            $breadcrumbs = get_breadcrumbs((int) $product['catalog_id']);
+            foreach ($breadcrumbs as $category):
+        ?>
+        <span class="breadcrumb-separator">
+            <i class="bi bi-chevron-right"></i>
+        </span>
+        <a href="index.php?page=category&id=<?= (int)$category['id'] ?>">
+            <?= htmlspecialchars($category['name']) ?>
+        </a>
+        <?php
+        endforeach;
+        ?>
+        <span class="breadcrumb-separator">
+            <i class="bi bi-chevron-right"></i>
+        </span>
+        <span class="active">
+            <?= htmlspecialchars($product['brand_name'] . ' ' . $product['product_name']) ?>
+        </span>
+    <?php endif;
     endif;
     ?>
 </nav>

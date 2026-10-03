@@ -181,3 +181,11 @@
     color: #19b94d;
     font-weight: 600;
 }
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 25px;
+    width: 100%;
+    margin: 20px 0;
+}

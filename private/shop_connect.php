@@ -32,6 +32,14 @@ function load_categories($id) {
     return $data;
 }
 
+function get_category($id) {
+    global $conn;
+    $sql = $conn->prepare("SELECT * FROM catalogs WHERE id = :id");
+    $sql->execute(['id' => $id]);
+
+    return $sql->fetch(PDO::FETCH_ASSOC);
+}
+
 function main_page_products() {
     global $conn;
     $data = [];
