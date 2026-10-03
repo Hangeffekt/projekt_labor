@@ -8,10 +8,12 @@ if (!isset($_GET['id'])) {
     $products = $data["products"];
 ?>
 
+<?php include('error.php'); ?>
+
 <?php
     if (empty($products)): ?>
-        nincs megjeleníthető termék
-    <?php else: 
+        Nincs megjeleníthető termék!
+    <?php else:
         foreach($products as $product){
             include('product_tile.php');
         } ?>
