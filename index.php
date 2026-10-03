@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once "private/shop_connect.php";
 $errors = [];
 $success = [];
@@ -7,6 +8,45 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'main';
 $page = preg_replace('/[^a-zA-Z0-9-_]/', '', $page);
 
 $file = load_page_file($page);
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' and isset($_POST['add_to_cart'])) {
+    $product_id = $_POST['product_id'];
+    $quantity = 1;
+
+    $data = $_SESSION["cart_data"] ?? [];
+    $carts = $data["cart"] ?? [];
+
+    $found = false;
+    foreach ($carts as &$cart) {
+        if ($cart["id"] == $product_id) {
+            $cart["quantity"] += $quantity;
+            $found = true;
+            break;
+        }
+    }
+    unset($cart);
+    
+    if (!$found) {
+        $product_data = product_details($product_id);
+        var_dump($product_data);
+        if (!empty($product_data["product"])) {
+            $product = $product_data["product"];
+            $carts[] = [
+                "id" => $product["id"],
+                "price" => $product["sale_price"],
+                "quantity" => $quantity
+            ];
+        } else {
+            header("Location: " . $_SERVER['REQUEST_URI'] . "&error=7");
+        }
+    }
+
+    $_SESSION["cart_data"]["cart"] = $carts;
+
+    header("Location: " . $_SERVER['REQUEST_URI'] . "&success=4");
+    exit;
+    
+}
 ?>
 <!DOCTYPE html>
 <html lang="hu">

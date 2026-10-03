@@ -8,9 +8,11 @@
     $product = $data["product"];
 ?>
 
+<?php include('error.php'); ?>
+
 <?php
     if (empty($product)): ?>
-        nincs megjeleníthető termék
+        Nincs megjeleníthető termék!
     <?php else: ?>
         <div class="card" style="width: 18rem;">
             <img src="<?= $product['image'] ?>" class="card-img-top" alt="<?= $product['product_name'] ?>">
@@ -19,9 +21,9 @@
                 <p class="card-text"><?= $product['sale_price'] ?></p>
                 <p class="card-text"><?= $product['tax_value'] ?>%</p>
                 <p class="card-text"><?= $product['description'] ?></p>
-                <form action="index.php?page=cart" method="post">
+                <form method="post">
                     <input type="hidden" name="product_id" value="<?= $product['id'] ?>">
-                    <button type="submit" class="btn btn-success">Kosárba</button>
+                    <button type="submit" class="btn btn-success" name="add_to_cart">Kosárba</button>
             </div>
         </div>
 

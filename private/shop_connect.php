@@ -19,6 +19,15 @@ function load_page_file($page) {
     else if(str_contains($page, 'product')) {
         return __DIR__ . "\..\\" . $page . ".php";
     }
+    else if(str_contains($page, 'cart')) {
+        return __DIR__ . "\..\\" . $page . ".php";
+    }
+    else if(str_contains($page, 'delivery')) {
+        return __DIR__ . "\..\\" . $page . ".php";
+    }
+    else if(str_contains($page, 'payment')) {
+        return __DIR__ . "\..\\" . $page . ".php";
+    }
     return __DIR__ . "/index.php";
 }
 
@@ -58,9 +67,10 @@ function category_products($id) {
     global $conn;
     $data = [];
 
-    $sql = $conn->prepare("SELECT * FROM products
-    inner join brands on products.brand_id = brands.id 
-    where catalog_id = :id and visible = 1 ORDER BY sale_price ");
+    $sql = $conn->prepare("SELECT p.*, b.name as brand_name, t.value as tax_value FROM products p
+    inner join brands b on p.brand_id = b.id 
+    inner join taxes t on p.tax_id = t.id
+    where p.catalog_id = :id and p.visible = 1 ORDER BY p.sale_price ");
     $sql->execute(['id' => $id]);
     $sql = $sql->fetchAll(PDO::FETCH_ASSOC);
     $data["products"] = $sql;

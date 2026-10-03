@@ -8,6 +8,8 @@ if (!isset($_GET['id'])) {
     $products = $data["products"];
 ?>
 
+<?php include('error.php'); ?>
+
 <?php
     if (empty($products)): ?>
         nincs megjeleníthető termék
