@@ -1,6 +1,6 @@
 <header class="site-header">
     <a href="index.php?page=main" class="navbar-brand site-logo">
-        logo yay
+        <img src="assets/logo.png" alt="Webshop logo">
     </a>
     <div class="header-main">
         <div class="header-top">
@@ -28,7 +28,7 @@
 
 <div class="offcanvas offcanvas-start" tabindex="-1" id="categoryMenu">
     <div class="offcanvas-header">
-        logo megint yay
+        <img src="assets/logo.png" alt="Webshop logo" class="offcanvas-logo">
     </div>
     <div class="offcanvas-body">
         <?php include "category_menu.php"; ?>
