@@ -1,6 +1,7 @@
 <header class="site-header">
     <a href="index.php?page=main" class="navbar-brand site-logo">
         <img src="assets/logo.png" alt="Webshop logo">
+        <span class="site-logo-tagline">ELADUNK DOLGOKAT HA MEGVESZIK</span>
     </a>
     <div class="header-main">
         <div class="header-top">
