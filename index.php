@@ -61,6 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' and isset($_POST['add_to_cart'])) {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 
+<body>
 <div class="header-head"></div>
 <div class="container">
     <?php require_once("menu.php") ?>
@@ -93,4 +94,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' and isset($_POST['add_to_cart'])) {
         }
     ?>
 </div>
+</body>
+<footer>
+<?php require_once("footer.php") ?>
+</footer>
 <?php ob_end_flush(); ?>
