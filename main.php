@@ -31,8 +31,8 @@
             </span>
             <h2>Kifutó termékek</h2>
             <p>
-                Kifutó termékek kedvező áron,
-                amíg a készlet tart.
+                Kifutó termékek kedvező áron
+                a készlet erejéig.
             </p>
         </div>
         <span class="promo-tile-button">
