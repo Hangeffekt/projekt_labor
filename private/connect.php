@@ -35,6 +35,12 @@ function load_page_file($page) {
     else if(str_contains($page, 'login')) {
         return __DIR__ . "\..\admin\\login.php";
     }
+    else if(str_contains($page, 'orders')) {
+        return __DIR__ . "\..\admin\\orders\\{$page}.php";
+    }
+    else if(str_contains($page, 'user')) {
+        return __DIR__ . "\..\admin\\users\\{$page}.php";
+    }
     else {
         http_response_code(404);
         die('Hiba: az oldal nem található.');
@@ -360,5 +366,67 @@ function getAdminByEmail($email) {
     $sql = $conn->prepare("SELECT * FROM admins WHERE email = :email");
     $sql->execute(['email' => $email]);
     return $sql->fetch(PDO::FETCH_ASSOC);
+}
+
+function orders(){
+    global $conn;
+    $data = [];
+
+    $sql = $conn->prepare("SELECT o.*, u.first_name, u.last_name, SUM(oi.qty * oi.price) as total_amount FROM orders o
+    left JOIN users u ON o.user_id = u.id
+    left join order_items oi ON o.id = oi.order_id
+    group BY o.id
+    order BY o.created_at DESC");
+
+    $sql->execute();
+    $data["orders"] = $sql->fetchAll(PDO::FETCH_ASSOC);
+
+    return $data;
+}
+
+function edit_order($id) {
+    global $conn;
+    $data = [];
+    $sql = $conn->prepare("SELECT o.*, u.*, z.city as city, SUM(oi.qty * oi.price) as total_amount FROM orders o
+    left join order_items oi ON o.id = oi.order_id
+    left join users u ON o.user_id = u.id
+    left join zip_code z ON u.irsz = z.code
+    WHERE o.id = :id
+    GROUP BY o.id");
+
+    $sql->execute(["id" => $id]);
+    $data["order"] = $sql->fetch(PDO::FETCH_ASSOC);
+
+    $sql_items = $conn->prepare("SELECT oi.*, p.product_name FROM order_items oi
+    LEFT JOIN products p ON oi.product_id = p.id
+    WHERE oi.order_id = :id");
+
+    $sql_items->execute(["id" => $id]);
+    $data["order_items"] = $sql_items->fetchAll(PDO::FETCH_ASSOC);
+
+    return $data;
+}
+
+function update_order_status($id, $newStatus){
+    global $conn;
+    
+    $sql = $conn->prepare("UPDATE orders 
+                          SET status = :status
+                          WHERE id = :id");
+    $sql->execute([
+        "status" => $newStatus,
+        "id" => $id
+    ]);
+}
+
+function edit_user($id) {
+    global $conn;
+    $data = [];
+    $sql = $conn->prepare("SELECT * FROM users WHERE id = :id");
+
+    $sql->execute(["id" => $id]);
+    $data["user"] = $sql->fetch(PDO::FETCH_ASSOC);
+
+    return $data;
 }
 ?>
