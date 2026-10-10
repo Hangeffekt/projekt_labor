@@ -12,12 +12,30 @@
         exit;
     }
 
+    if(isset($_POST['update_user'])) {
+        $first_name = $_POST['first_name'];
+        $last_name = $_POST['last_name'];
+        $email = $_POST['email'];
+        $phone = $_POST['phone'];
+        $irsz = $_POST['irsz'];
+        $address = $_POST['address'];
+        $invoice_address = $_POST['invoice_address'];
+        $invoice_irsz = $_POST['invoice_irsz'];
+        $name = $_POST['name'];
+        $tax_number = $_POST['tax_number'];
+
+        $irsz = preg_replace('/[^0-9]/', '', $irsz);
+        $invoice_irsz = preg_replace('/[^0-9]/', '', $invoice_irsz);
+        $tax_number = preg_replace('/[^0-9]/', '', $tax_number);
+
+        update_user($id, $first_name, $last_name, $email, $phone, $irsz, $address, $invoice_address, $invoice_irsz, $name, $tax_number);
+    }
+
     $data = edit_user($id);
     $user = $data["user"];
 ?>
 
 <?php if ($user): ?>
-    <h1>Edit User #<?= $user['id']; ?></h1>
     <form method="POST">
         <h2>Edit User Data</h2>
         <div class="form-group">
@@ -61,7 +79,7 @@
             <label for="tax_number">Invoice Tax Number</label>
             <input type="text" class="form-control" id="tax_number" name="tax_number" value="<?= $user['tax_number']; ?>">
         </div>
-        <button type="submit" class="btn btn-primary">Update User</button>
+        <button type="submit" name="update_user" class="btn btn-primary">Update User</button>
     </form>
 <?php else: ?>
     <p>User not found.</p>

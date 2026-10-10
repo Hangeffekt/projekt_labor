@@ -429,4 +429,34 @@ function edit_user($id) {
 
     return $data;
 }
+
+function update_user($id, $first_name, $last_name, $email, $phone, $irsz, $address, $invoice_address, $invoice_irsz, $name, $tax_number){
+    global $conn;
+    
+    $sql = $conn->prepare("UPDATE users 
+                          SET first_name = :first_name,
+                              last_name = :last_name,
+                              email = :email,
+                              phone = :phone,
+                              irsz = :irsz,
+                              address = :address,
+                              invoice_address = :invoice_address,
+                              invoice_irsz = :invoice_irsz,
+                              name = :name,
+                              tax_number = :tax_number
+                          WHERE id = :id");
+    $sql->execute([
+        "first_name" => $first_name,
+        "last_name" => $last_name,
+        "email" => $email,
+        "phone" => $phone,
+        "irsz" => $irsz,
+        "address" => $address,
+        "invoice_address" => $invoice_address,
+        "invoice_irsz" => $invoice_irsz,
+        "name" => $name,
+        "tax_number" => $tax_number,
+        "id" => $id
+    ]);
+}
 ?>
