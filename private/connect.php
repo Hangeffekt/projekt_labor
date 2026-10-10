@@ -430,7 +430,7 @@ function edit_user($id) {
     return $data;
 }
 
-function update_user($id, $first_name, $last_name, $email, $phone, $irsz, $address, $invoice_address, $invoice_irsz, $name, $tax_number){
+function update_user($id, $data){
     global $conn;
     
     $sql = $conn->prepare("UPDATE users 
@@ -446,17 +446,52 @@ function update_user($id, $first_name, $last_name, $email, $phone, $irsz, $addre
                               tax_number = :tax_number
                           WHERE id = :id");
     $sql->execute([
-        "first_name" => $first_name,
-        "last_name" => $last_name,
-        "email" => $email,
-        "phone" => $phone,
-        "irsz" => $irsz,
-        "address" => $address,
-        "invoice_address" => $invoice_address,
-        "invoice_irsz" => $invoice_irsz,
-        "name" => $name,
-        "tax_number" => $tax_number,
-        "id" => $id
+        ...$data
     ]);
+}
+
+function users(){
+    global $conn;
+
+    $data = [];
+    $sql = $conn->prepare("SELECT * FROM users
+    order BY first_name, last_name ASC");
+
+    $sql->execute();
+    $data["users"] = $sql->fetchAll(PDO::FETCH_ASSOC);
+
+    return $data;
+}
+
+function create_user($data){
+    global $conn;
+    
+    $sql = $conn->prepare("INSERT INTO users (first_name, last_name, email, phone, irsz, address, invoice_address, invoice_irsz, name, tax_number)
+                          values( :first_name, :last_name, :email, :phone, :irsz, :address, :invoice_address, :invoice_irsz, :name, :tax_number)");
+    $sql->execute([
+        ...$data
+    ]);
+}
+
+function check_email($data){
+    global $conn;
+
+    $sql = $conn->prepare("SELECT * FROM users WHERE email = :email");
+
+    $sql->execute([...$data]);
+    $result = $sql->fetchAll(PDO::FETCH_ASSOC);
+
+    return $result;
+}
+
+function check_tax_number($data){
+    global $conn;
+
+    $sql = $conn->prepare("SELECT * FROM users WHERE tax_number = :tax_number");
+
+    $sql->execute([...$data]);
+    $result = $sql->fetchAll(PDO::FETCH_ASSOC);
+
+    return $result;
 }
 ?>

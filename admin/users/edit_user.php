@@ -1,8 +1,7 @@
 <?php
     if(isset($_GET['id'])) {
-        $id = preg_match('/^\d+$/', $_GET['id']) ? $_GET['id'] : null;
+        $id = preg_match('/[^0-9]/', $_GET['id']) ? $_GET['id'] : null;
         if ($id === null) {
-            // Handle invalid ID
             echo "Invalid user ID.";
             exit;
         }
@@ -28,12 +27,25 @@
         $invoice_irsz = preg_replace('/[^0-9]/', '', $invoice_irsz);
         $tax_number = preg_replace('/[^0-9]/', '', $tax_number);
 
-        update_user($id, $first_name, $last_name, $email, $phone, $irsz, $address, $invoice_address, $invoice_irsz, $name, $tax_number);
+        update_user($id, [
+            'first_name' => $first_name,
+            'last_name' => $last_name,
+            'email' => $email,
+            'phone' => $phone,
+            'irsz' => $irsz,
+            'address' => $address,
+            'invoice_address' => $invoice_address,
+            'invoice_irsz' => $invoice_irsz,
+            'name' => $name,
+            'tax_number' => $tax_number,
+        ]);
     }
 
     $data = edit_user($id);
     $user = $data["user"];
 ?>
+
+<?php include("error.php"); ?>
 
 <?php if ($user): ?>
     <form method="POST">

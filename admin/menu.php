@@ -1,4 +1,5 @@
 <a href="index.php?page=main">Home</a>
+<a href="index.php?page=users">Users</a>
 <a href="index.php?page=orders">Orders</a>
 <a href="index.php?page=products">Products</a>
 <a href="index.php?page=catalogs">Catalogs</a>
