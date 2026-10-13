@@ -1,16 +1,21 @@
 <?php
     $category_id = $_GET['id'] ?? 0;
 
+    $current_category = get_category($category_id);
+
     $category_data = category_products($category_id);
     $products = $category_data["products"] ?? [];
 
-    $current_category = get_category($category_id);
-
     $subcategory_data = load_categories($category_id);
     $subcategories = $subcategory_data["categories"] ?? [];
-?>
 
-<?php include("breadcrumb.php"); ?>
+    foreach ($subcategories as $subcategory) {
+        $subcategory_data = category_products($subcategory['id']);
+        $subcategory_products = $subcategory_data["products"] ?? [];
+
+        $products = array_merge($products, $subcategory_products);
+    }
+?>
 
 
 <div class="category-products-layout <?= empty($subcategories) ? 'no-subcategories' : '' ?>">
