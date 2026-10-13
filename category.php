@@ -17,6 +17,8 @@
     }
 ?>
 
+<?php include("breadcrumb.php"); ?>
+
 
 <div class="category-products-layout <?= empty($subcategories) ? 'no-subcategories' : '' ?>">
     <?php if (!empty($subcategories)): ?>
