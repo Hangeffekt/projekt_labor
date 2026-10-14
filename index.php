@@ -77,7 +77,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' and isset($_POST['add_to_cart'])) {
                 <?php endforeach;?>
             <?php endif;?>
         
-            <?php if(isset($_GET["success"])):?>
+            <?php if(isset($_GET["success"]) && in_array($_GET["success"], [1, 2, 3])):?>
                 <div class="alert alert-success" role="alert">
                     <?php if($_GET["success"] == 1):?>
                         Sikeres törlés!
