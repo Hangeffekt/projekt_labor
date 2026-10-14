@@ -20,9 +20,9 @@ if(isset($_POST['status'])) {
     exit;
 }
 $data = edit_order($id);
-$order = $data["order"];
-$user = $data["user"];
-$items = $data["order_items"];
+$order = $data["order"] ?? null;
+$user = $data["user"] ?? null;
+$items = $data["order_items"] ?? [];
 ?>
 <h2>Change status</h2>
 <?php if ($order): ?>
