@@ -5,7 +5,7 @@
     $latest_orders = ($all_orders != null) ? array_slice($all_orders, 0, 10) : null;
 ?>
 
-<h2 style="margin-bottom: 15px">Utolsó 10 rendelés</h2>
+<h2>Utolsó 10 rendelés</h2>
 
 <table>
     <thead>
