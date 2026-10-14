@@ -52,12 +52,14 @@ table {
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 30px;
+    table-layout: fixed;
 }
 
 th, td {
     padding: 16px;
     text-align: left;
     border-bottom: 1px solid #f0f0f0;
+    word-wrap: break-word;
 }
 
 th {
