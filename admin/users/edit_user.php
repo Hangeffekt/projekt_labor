@@ -1,6 +1,6 @@
 <?php
     if(isset($_GET['id'])) {
-        $id = preg_match('/[^0-9]/', $_GET['id']) ? $_GET['id'] : null;
+        $id = preg_match('/[^0-9]/', $_GET['id']) ? null : $_GET['id'];
         if ($id === null) {
             echo "Invalid user ID.";
             exit;
