@@ -5,165 +5,127 @@
 }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #c3cbd6;
-    color: #2a403d;
-    padding: 20px;
+    font-family: sans-serif;
+    background: #f4f6f8;
+    color: #222;
+    padding: 40px 20px;
 }
 
 .container {
-    max-width: 1000px;
+    max-width: 900px;
     margin: 0 auto;
-    background: #c3cbd6;
-    padding: 25px;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    background: #fff;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
 }
 
 a {
-    color: #007bff;
+    color: #222;
     text-decoration: none;
 }
 
-a:hover {
-    text-decoration: underline;
-}
-
-.container > a[href*="index.php"] {
+.container > a {
     display: inline-block;
-    padding: 8px 14px;
-    margin-right: 5px;
-    margin-bottom: 20px;
-    background-color: #2a403d;
-    color: #c3cbd6;
-    border-radius: 4px;
-    font-size: 0.9rem;
-    transition: background-color 0.2s;
+    padding: 10px 18px;
+    margin: 0 10px 20px 0;
+    background: #f4f6f8;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: 0.2s;
 }
 
-.container > a[href*="index.php"]:hover {
-    background-color: #748b6f;
-    text-decoration: none;
+.container > a:hover {
+    background: #e2e6ea;
 }
 
 .container > a[href*="create_"] {
-    display: inline-block;
-    margin-bottom: 15px;
-    padding: 9px 16px;
-    background-color: #748b6f;
-    color: #c3cbd6;
-    border-radius: 4px;
-    font-weight: bold;
+    background: #111;
+    color: #fff;
 }
 
 .container > a[href*="create_"]:hover {
-    background-color: #2a403d;
-    text-decoration: none;
+    background: #333;
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 10px;
-    margin-bottom: 20px;
-}
-
-table, th, td {
-    border: 1px solid #2a403d;
+    margin-bottom: 30px;
 }
 
 th, td {
-    padding: 12px;
+    padding: 16px;
     text-align: left;
+    border-bottom: 1px solid #f0f0f0;
 }
 
 th {
-    background-color: #2a403d;
-    color: #c3cbd6;
-    font-weight: 600;
-}
-
-tr:nth-child(even) {
-    background-color: #748b6f;
-}
-
-tr:hover {
-    background-color: #748b6f;
+    color: #888;
+    font-weight: normal;
+    font-size: 14px;
 }
 
 td a[href*="edit_"] {
-    color: #2a403d;
+    margin-right: 15px;
     font-weight: bold;
-    margin-right: 10px;
 }
 
-td a[href*="delete_id"] {
-    color: #D05663;
+td a[href*="delete"] {
+    color: #e63946;
     font-weight: bold;
 }
 
 form {
+    max-width: 350px;
+    margin: 20px auto;
     display: flex;
     flex-direction: column;
-    gap: 12px;
-    max-width: 450px;
-    margin-top: 15px;
-    background: #c3cbd6;
-    padding: 20px;
-    border-radius: 6px;
-    border: 1px solid #e0e0e0;
+    gap: 15px;
 }
 
 form label {
-    font-weight: 600;
-    font-size: 0.9rem;
-    color: #2a403d;
+    font-size: 14px;
+    color: #666;
+    margin-bottom: -5px;
 }
 
-form input[type="text"],
-form input[type="number"],
-form select {
+input, select {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 15px;
     width: 100%;
-    padding: 8px 12px;
-    border: 1px solid #ced4da;
-    border-radius: 4px;
-    font-size: 0.95rem;
+    outline: none;
+    transition: 0.2s;
 }
 
-form input[type="checkbox"] {
-    margin-right: 8px;
+input:focus, select:focus {
+    border-color: #111;
 }
 
-form button[type="submit"] {
-    padding: 10px 15px;
-    background-color: #007bff;
-    color: #c3cbd6;
+button {
+    padding: 12px 35px;
+    background: #111;
+    color: #fff;
     border: none;
-    border-radius: 4px;
-    font-size: 1rem;
+    border-radius: 8px;
+    font-size: 15px;
     cursor: pointer;
-    margin-top: 10px;
+    display: block;
+    margin: 15px auto 0 auto;
+    transition: 0.2s;
 }
 
-form button[type="submit"]:hover {
-    background-color: #0056b3;
+button:hover {
+    background: #333;
 }
 
 .alert {
-    padding: 12px 16px;
-    margin-top: 15px;
-    border-radius: 4px;
-    font-weight: 500;
-}
-
-.alert-success {
-    background-color: #d4edda;
+    padding: 15px;
+    background: #d4edda;
     color: #155724;
-    border: 1px solid #c3e6cb;
-}
-
-.alert-warning {
-    background-color: #fff3cd;
-    color: #856404;
-    border: 1px solid #ffeeba;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    text-align: center;
 }
