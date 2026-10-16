@@ -42,11 +42,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errors[] = 'Hiba: a megadott id-hez nem található katalógus.';
     }
 
-    if(checkProductExists($name)){
+    if(checkProductExists($name, 0)){
         $errors[] = "Ez a név már létezik.";
     }
 
-    if(checkEanExists($ean)){
+    if(checkEanExists($ean, 0)){
         $errors[] = "Ez az EAN már létezik.";
     }
 

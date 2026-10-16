@@ -56,11 +56,11 @@
             $errors[] = 'Hiba: a megadott id-hez nem található katalógus.';
         }
 
-        if(checkProductExists($name)){
+        if(checkProductExists($name, $id)){
             $errors[] = "Ez a név már létezik.";
         }
 
-        if(checkEanExists($ean)){
+        if(checkEanExists($ean, $id)){
             $errors[] = "Ez az EAN már létezik.";
         }
 

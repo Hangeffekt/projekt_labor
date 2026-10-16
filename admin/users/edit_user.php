@@ -23,22 +23,38 @@
         $name = $_POST['name'];
         $tax_number = $_POST['tax_number'];
 
+        if ($first_name == "" || $last_name == "" || $email == "" || $phone == "" || $irsz == "" || $address == "")
+        // Check if any of the required parameters are empty
+        $errors[] = "Error: One or more required fields are missing.";
+        
+        if( $email == "" || check_email(["email" => $email], $id)['db'] > 0)
+            $errors[] = "Az email cím már létezik";
+    
+
         $irsz = preg_replace('/[^0-9]/', '', $irsz);
         $invoice_irsz = preg_replace('/[^0-9]/', '', $invoice_irsz);
         $tax_number = preg_replace('/[^0-9]/', '', $tax_number);
 
-        update_user($id, [
-            'first_name' => $first_name,
-            'last_name' => $last_name,
-            'email' => $email,
-            'phone' => $phone,
-            'irsz' => $irsz,
-            'address' => $address,
-            'invoice_address' => $invoice_address,
-            'invoice_irsz' => $invoice_irsz,
-            'name' => $name,
-            'tax_number' => $tax_number,
-        ]);
+        if($tax_number != ""){
+            if(check_tax_number(['tax_number' => $tax_number], $id)['db'] > 0){
+                $errors[] = "Az adószám már létezik";
+            }
+        }
+
+        if(empty($errors)){
+            update_user($id, [
+                'first_name' => $first_name,
+                'last_name' => $last_name,
+                'email' => $email,
+                'phone' => $phone,
+                'irsz' => $irsz,
+                'address' => $address,
+                'invoice_address' => $invoice_address,
+                'invoice_irsz' => $invoice_irsz,
+                'name' => $name,
+                'tax_number' => $tax_number,
+            ]);
+        }
     }
 
     $data = edit_user($id);

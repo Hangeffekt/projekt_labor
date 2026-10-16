@@ -257,18 +257,18 @@ function create_product($data){
   ]);
 }
 
-function checkProductExists($name) {
+function checkProductExists($name, $excludedId) {
     global $conn;
-    $sql = $conn->prepare("SELECT COUNT(*) FROM products WHERE product_name = :name");
-    $sql->execute(['name' => $name]);
-    return $sql->fetchColumn() > 0;
+    $sql = $conn->prepare("SELECT COUNT(*) FROM products WHERE product_name = :name AND id != :excludedId");
+    $sql->execute(['name' => $name, 'excludedId' => $excludedId]);
+    return $sql->fetchColumn();
 }
 
-function checkEanExists($ean) {
+function checkEanExists($ean, $excludedId) {
     global $conn;
-    $sql = $conn->prepare("SELECT COUNT(*) FROM products WHERE ean = :ean");
-    $sql->execute(['ean' => $ean]);
-    return $sql->fetchColumn() > 0;
+    $sql = $conn->prepare("SELECT COUNT(*) FROM products WHERE ean = :ean AND id != :excludedId");
+    $sql->execute(['ean' => $ean, 'excludedId' => $excludedId]);
+    return $sql->fetchColumn();
 }
 
 function edit_product($id) {
@@ -446,7 +446,8 @@ function update_user($id, $data){
                               tax_number = :tax_number
                           WHERE id = :id");
     $sql->execute([
-        ...$data
+        ...$data,
+      "id" => $id
     ]);
 }
 
@@ -473,24 +474,27 @@ function create_user($data){
     ]);
 }
 
-function check_email($data){
+function check_email($data, $excludedId){
     global $conn;
 
-    $sql = $conn->prepare("SELECT * FROM users WHERE email = :email");
+    $sql = $conn->prepare("SELECT count(*) as db FROM users WHERE email = :email AND id != :excludedId");
 
-    $sql->execute([...$data]);
-    $result = $sql->fetchAll(PDO::FETCH_ASSOC);
+    $sql->execute([
+        ...$data,
+        "excludedId" => $excludedId]);
+    $result = $sql->fetch(PDO::FETCH_ASSOC);
 
     return $result;
 }
 
-function check_tax_number($data){
+function check_tax_number($data, $excludedId){
     global $conn;
 
-    $sql = $conn->prepare("SELECT * FROM users WHERE tax_number = :tax_number");
+    $sql = $conn->prepare("SELECT count(*) as db FROM users WHERE tax_number = :tax_number AND id != :excludedId");
 
-    $sql->execute([...$data]);
-    $result = $sql->fetchAll(PDO::FETCH_ASSOC);
+    $sql->execute([...$data,
+        "excludedId" => $excludedId]);
+    $result = $sql->fetch(PDO::FETCH_ASSOC);
 
     return $result;
 }
