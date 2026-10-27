@@ -41,6 +41,9 @@ function load_page_file($page) {
     else if(str_contains($page, 'user')) {
         return __DIR__ . "\..\admin\\users\\{$page}.php";
     }
+    else if(str_contains($page, 'delivery')) {
+        return __DIR__ . "\..\admin\\delivery\\{$page}.php";
+    }
     else {
         http_response_code(404);
         die('Hiba: az oldal nem található.');
@@ -497,5 +500,64 @@ function check_tax_number($data, $excludedId){
     $result = $sql->fetch(PDO::FETCH_ASSOC);
 
     return $result;
+}
+
+function deliverys(){
+    global $conn;
+    $data = [];
+    $sql = $conn->prepare("SELECT * FROM delivery
+    order BY id desc");
+
+    $sql->execute();
+    $data["deliverys"] = $sql->fetchAll(PDO::FETCH_ASSOC);
+
+    return $data;
+}
+
+function createDelivery($data){
+  global $conn;
+  
+  $sql = $conn->prepare("INSERT INTO `delivery` (`name`, `arriving_at`) VALUES (:name, :arriving_at)");
+  $sql->execute([
+    ...$data
+  ]);
+}
+
+function edit_delivery($id) {
+    global $conn;
+    $sql = $conn->prepare("SELECT * FROM delivery WHERE id = :id");
+
+    $sql->execute(["id" => $id]);
+    $data = $sql->fetchAll(PDO::FETCH_ASSOC);
+
+    return $data;
+}
+
+function delete_delivery($id) {
+    global $conn;
+    
+    $sql = $conn->prepare("DELETE FROM delivery 
+                          WHERE id = :id");
+    $sql->execute(["id" => $id]);
+}
+
+function search_by_ean($ean){
+    global $conn;
+    $sql = $conn->prepare("SELECT * FROM products
+    where ean = :ean");
+
+    $sql->execute(["ean" => $ean]);
+    $data = $sql->fetchAll(PDO::FETCH_ASSOC);
+
+    return $data;
+}
+
+function add_to_deliverylist($data){
+    global $conn;
+  
+    $sql = $conn->prepare("INSERT INTO `transactions` (`name`, `type`, `inner_table_id`, `poduct_id`, `qty`, `net_price`, `sale_price`) VALUES (:name, 'OUT', :inner_table_id, :poduct_id, 1, :net_price, :sale_price)");
+    $sql->execute([
+        ...$data
+    ]);
 }
 ?>

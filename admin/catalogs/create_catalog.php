@@ -1,5 +1,4 @@
 <?php
-require_once "../private/connect.php";
 $errors = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
