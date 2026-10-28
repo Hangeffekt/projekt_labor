@@ -528,8 +528,16 @@ function edit_delivery($id) {
     $sql = $conn->prepare("SELECT * FROM delivery WHERE id = :id");
 
     $sql->execute(["id" => $id]);
-    $data = $sql->fetchAll(PDO::FETCH_ASSOC);
+    $data["delivery"] = $sql->fetch(PDO::FETCH_ASSOC);
 
+    $sql = $conn->prepare("SELECT t.*, p.product_name, b.name as brand_name FROM transactions t 
+    inner join products p on p.id = t.product_id
+    inner join brands b on b.id = p.brand_id
+    WHERE t.inner_table_id = :id and t.type = 'IN'
+    ");
+
+    $sql->execute(["id" => $id]);
+    $data["prodcuts_list"] = $sql->fetchAll(PDO::FETCH_ASSOC);
     return $data;
 }
 
@@ -554,8 +562,9 @@ function search_by_ean($ean){
 
 function add_to_deliverylist($data){
     global $conn;
+    var_dump($data);
   
-    $sql = $conn->prepare("INSERT INTO `transactions` (`name`, `type`, `inner_table_id`, `poduct_id`, `qty`, `net_price`, `sale_price`) VALUES (:name, 'OUT', :inner_table_id, :poduct_id, 1, :net_price, :sale_price)");
+    $sql = $conn->prepare("INSERT INTO `transactions` (`type`, `inner_table_id`, `product_id`, qty) VALUES ('IN', :inner_table_id, :product_id, 1)");
     $sql->execute([
         ...$data
     ]);

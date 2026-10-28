@@ -24,7 +24,6 @@
         }
 
         if (checkTaxExists($value)) {
-            createTax(['value' => $value]);
             $errors[] = "Ez az érték már létezik.";
         }
 

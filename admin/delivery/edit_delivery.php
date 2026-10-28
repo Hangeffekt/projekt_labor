@@ -7,17 +7,29 @@ if (!isset($_GET['id']) || $_GET['id'] === '') {
 }
 
 $data = edit_delivery($_GET['id']);
-$delivery = $data['brand'] ?? [];
+$delivery = $data['delivery'] ?? [];
+$products_list =  $data['prodcuts_list'] ?? [];
 $errors = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if(isset($_POST["eanbtn"])){
         $ean = $_POST['ean'] ?? '';
-        $id = search_by_ean($ean);
-        if(count($id) == 1)
-            add_to_deliverylist($id["id"]);
+        $product_data = search_by_ean($ean);
+        
+        if(count($product_data) == 1){
+            $search_data["product_id"] = $product_data[0]["id"];
+            $search_data["inner_table_id"] = $delivery["id"];
+            add_to_deliverylist($search_data);
+        }
         else
             $errors[] = "Nem található termék az vonalkódhoz!";
+    }
+
+    if(isset($_POST["modify"])){
+        $product_id = $_POST['product_id'] ?? '';
+        $net_price = $_POST['net_price'] ?? '';
+        $sale_price = $_POST['sale_price'] ?? '';
+        $qty = $_POST['qty'] ?? '';
     }
 }
 ?>
@@ -34,3 +46,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <label for="ean">Ár:</label>
     <input type="submit" name="searchbtn" value="Keresés">
 </form>
+
+<?php if($products_list):?>
+    <?php foreach($products_list as $product): ?>
+            <?= $product['brand_name'] ?> <?= $product['product_name'] ?>
+            <form method="post">
+                <input type="hidden" name="product_id" value="<?= $product['id'] ?>">
+                net price
+                <input type="number" value="<?= $product['net_price'] ?>" name="net_price" required>
+                sale price
+                <input type="number" value="<?= $product['sale_price'] ?>" name="sale_price" required>
+                qty
+                <input type="number" value="<?= $product['qty'] ?>" name="qty" required>
+                <input type="submit" name="modify" value="Módosít">
+                <a href="index.php?page=edit_delivery&id=<?= $delivery['id'] ?>delete_product=<?= $product['id'] ?>">Törlés</a>
+            </form>
+    <?php endforeach; ?>
+<?php else: ?>
+    <p>No products found.</p>
+<?php endif; ?>
