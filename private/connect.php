@@ -562,11 +562,44 @@ function search_by_ean($ean){
 
 function add_to_deliverylist($data){
     global $conn;
-    var_dump($data);
   
     $sql = $conn->prepare("INSERT INTO `transactions` (`type`, `inner_table_id`, `product_id`, qty) VALUES ('IN', :inner_table_id, :product_id, 1)");
     $sql->execute([
         ...$data
     ]);
+}
+
+function search_in_transaction($id, $inner_table_id){
+    global $conn;
+
+    $sql = $conn->prepare("SELECT * from `transactions`
+    where id = :id and inner_table_id = :inner_table_id and type = 'IN'");
+    $sql->execute(
+        ["id" => $id,
+        "inner_table_id" => $inner_table_id]
+    );
+    return $data = $sql->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function modify_product_on_delivery_list($data, $id){
+    global $conn;
+
+    $sql = $conn->prepare("UPDATE transactions 
+                          SET net_price = :net_price,
+                              sale_price = :sale_price,
+                              qty = :qty
+                          WHERE id = :id");
+    $sql->execute([
+        ...$data,
+      "id" => $id
+    ]);
+}
+
+function delete_product_on_delivery_list($id){
+    global $conn;
+    
+    $sql = $conn->prepare("DELETE FROM transactions 
+                          WHERE id = :id");
+    $sql->execute(["id" => $id]);
 }
 ?>
