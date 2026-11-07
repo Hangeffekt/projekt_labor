@@ -44,8 +44,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             header("location:index.php?page=edit_delivery&id=".$delivery["id"]."&error=2");
         }
     }
+}
 
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     if(isset($_GET["delete_product"])){
+        echo "Megy";
         $product_id = $_GET['delete_product'] ?? '';
         $product_data = search_in_transaction($product_id, $delivery["id"]);
         var_dump($product_id);
@@ -76,17 +79,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <?php if($products_list):?>
     <?php foreach($products_list as $product): ?>
             <?= $product['brand_name'] ?> <?= $product['product_name'] ?>
-            <form method="post">
-                <input type="hidden" name="product_id" value="<?= $product['id'] ?>">
-                net price
-                <input type="number" value="<?= $product['net_price'] ?>" name="net_price" required>
-                sale price
-                <input type="number" value="<?= $product['sale_price'] ?>" name="sale_price" required>
-                qty
-                <input type="number" value="<?= $product['qty'] ?>" name="qty" required>
-                <input type="submit" name="modify" value="Módosít">
-                <a href="index.php?page=edit_delivery&id=<?= $delivery['id'] ?>&delete_product=<?= $product['id'] ?>">Törlés</a>
-            </form>
+            <?= $product['status'] ?>
+            <?php if($product['status'] == 'PENDING'): ?>
+                <form method="post">
+                    <input type="hidden" name="product_id" value="<?= $product['id'] ?>">
+                    net price
+                    <input type="number" value="<?= $product['net_price'] ?>" name="net_price" required>
+                    sale price
+                    <input type="number" value="<?= $product['sale_price'] ?>" name="sale_price" required>
+                    qty
+                    <input type="number" value="<?= $product['qty'] ?>" name="qty" required>
+                    <input type="submit" name="modify" value="Módosít">
+                    <a href="index.php?page=edit_delivery&id=<?= $delivery['id'] ?>&delete_product=<?= $product['id'] ?>">Törlés</a>
+                </form>
+            <?php endif; ?>
     <?php endforeach; ?>
 <?php else: ?>
     <p>No products found.</p>

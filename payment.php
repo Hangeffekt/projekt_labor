@@ -20,8 +20,7 @@
 
     if (isset($_POST['submit_payment'])) {
 
-        save_cart_data($_SESSION["cart_data"]);
-        save_delivery_data($_SESSION["delivery_data"]);
+        save_cart_data($_SESSION["cart_data"], $_SESSION["delivery_data"]);
 
         unset($_SESSION["cart_data"]);
         unset($_SESSION["delivery_data"]);

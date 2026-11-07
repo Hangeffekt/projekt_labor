@@ -506,7 +506,7 @@ function deliverys(){
     global $conn;
     $data = [];
     $sql = $conn->prepare("SELECT * FROM delivery
-    order BY id desc");
+    order BY arriving_at desc");
 
     $sql->execute();
     $data["deliverys"] = $sql->fetchAll(PDO::FETCH_ASSOC);
@@ -544,8 +544,23 @@ function edit_delivery($id) {
 function delete_delivery($id) {
     global $conn;
     
+    $sql = $conn->prepare("DELETE FROM transactions where inner_table_id = $id AND status is not 'COMPLETED'");
+    $sql->execute(["id" => $id]);
+
     $sql = $conn->prepare("DELETE FROM delivery 
+                          WHERE id = :id AND status is not 'COMPLETED'");
+    $sql->execute(["id" => $id]);
+}
+
+function close_delivery($id) {
+    global $conn;
+
+    $sql = $conn->prepare("UPDATE delivery SET status = 'COMPLETED'
                           WHERE id = :id");
+    $sql->execute(["id" => $id]);
+
+    $sql = $conn->prepare("UPDATE transactions SET status = 'COMPLETED'
+                          WHERE inner_table_id = :id");
     $sql->execute(["id" => $id]);
 }
 
@@ -563,7 +578,7 @@ function search_by_ean($ean){
 function add_to_deliverylist($data){
     global $conn;
   
-    $sql = $conn->prepare("INSERT INTO `transactions` (`type`, `inner_table_id`, `product_id`, qty) VALUES ('IN', :inner_table_id, :product_id, 1)");
+    $sql = $conn->prepare("INSERT INTO `transactions` (`type`, `status`, `inner_table_id`, `product_id`, qty) VALUES ('IN', 'PENDING', :inner_table_id, :product_id, 1)");
     $sql->execute([
         ...$data
     ]);
@@ -599,7 +614,7 @@ function delete_product_on_delivery_list($id){
     global $conn;
     
     $sql = $conn->prepare("DELETE FROM transactions 
-                          WHERE id = :id");
+                          WHERE id = :id AND status is not 'COMPLETED'");
     $sql->execute(["id" => $id]);
 }
 ?>

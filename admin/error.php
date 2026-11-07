@@ -6,6 +6,8 @@
             Sikeres frissítés!
         <?php elseif($_GET["success"] == 3):?>
             Sikeres létrehozás!
+        <?php elseif($_GET["success"] == 4):?>
+            Sikeres lezárás!
         <?php endif;?>
     </div>
 <?php endif;?>
