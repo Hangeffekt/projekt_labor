@@ -15,7 +15,7 @@
 <?php if(isset($_GET["error"])):?>
     <div class="alert alert-success" role="alert">
         <?php if($_GET["error"] == 1):?>
-            Nem található termék az vonalkódhoz!
+            Nem található termék ehhez a vonalkódhoz!
         <?php elseif($_GET["error"] == 2):?>
             Nem található termék!
         <?php endif;?>

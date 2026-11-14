@@ -8,7 +8,7 @@
 
         if(empty(edit_brand($id))) {
             http_response_code(404);
-            die('Hiba: a megadott id-hez nem található márka.');
+            die('Hiba: a megadott azonosítóhoz nem található márka.');
         }
 
         delete_brand($id);
@@ -16,15 +16,15 @@
         exit();
     }
 ?>
-<a href="index.php?page=create_brand">Create New Brand</a>
+<a href="index.php?page=create_brand">Új márka létrehozása</a>
 <?php include("error.php"); ?>
 <?php if($brands):?>
     <table>
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Name</th>
-                <th>Actions</th>
+                <th>Név</th>
+                <th>Műveletek</th>
             </tr>
         </thead>
         <tbody>
@@ -33,13 +33,13 @@
                     <td><?= $brand['id'] ?></td>
                     <td><?= $brand['name'] ?></td>
                     <td>
-                        <a href="index.php?page=edit_brand&id=<?= $brand['id'] ?>">Edit</a>
-                        <a href="index.php?page=brands&brand_delete_id=<?= $brand['id'] ?>">Delete</a>
+                        <a href="index.php?page=edit_brand&id=<?= $brand['id'] ?>">Szerkesztés</a>
+                        <a href="index.php?page=brands&brand_delete_id=<?= $brand['id'] ?>">Törlés</a>
                     </td>
                 </tr>
             <?php endforeach; ?>
         </tbody>
     </table>
 <?php else: ?>
-    <p>No brands found.</p>
+    <p>Nem található márka.</p>
 <?php endif; ?>

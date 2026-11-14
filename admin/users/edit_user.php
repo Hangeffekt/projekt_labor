@@ -2,12 +2,12 @@
     if(isset($_GET['id'])) {
         $id = preg_match('/[^0-9]/', $_GET['id']) ? null : $_GET['id'];
         if ($id === null) {
-            echo "Invalid user ID.";
+            echo "Érvénytelen felhasználó-azonosító.";
             exit;
         }
     } else {
         // Handle the case when 'id' is not provided in the URL
-        echo "User ID is missing.";
+        echo "Hiányzik a felhasználó-azonosító.";
         exit;
     }
 
@@ -25,10 +25,10 @@
 
         if ($first_name == "" || $last_name == "" || $email == "" || $phone == "" || $irsz == "" || $address == "")
         // Check if any of the required parameters are empty
-        $errors[] = "Error: One or more required fields are missing.";
+        $errors[] = "Hiba: egy vagy több kötelező mező hiányzik.";
         
         if( $email == "" || check_email(["email" => $email], $id)['db'] > 0)
-            $errors[] = "Az email cím már létezik";
+            $errors[] = "Ez az e-mail-cím már használatban van.";
     
 
         $irsz = preg_replace('/[^0-9]/', '', $irsz);
@@ -37,7 +37,7 @@
 
         if($tax_number != ""){
             if(check_tax_number(['tax_number' => $tax_number], $id)['db'] > 0){
-                $errors[] = "Az adószám már létezik";
+                $errors[] = "Ez az adószám már használatban van.";
             }
         }
 
@@ -65,50 +65,50 @@
 
 <?php if ($user): ?>
     <form method="POST">
-        <h2>Edit User Data</h2>
+        <h2>Felhasználói adatok szerkesztése</h2>
         <div class="form-group">
-            <label for="first_name">First Name</label>
+            <label for="first_name">Keresztnév</label>
             <input type="text" class="form-control" id="first_name" name="first_name" value="<?= $user['first_name']; ?>">
         </div>
         <div class="form-group">
-            <label for="last_name">Last Name</label>
+            <label for="last_name">Vezetéknév</label>
             <input type="text" class="form-control" id="last_name" name="last_name" value="<?= $user['last_name']; ?>">
         </div>
         <div class="form-group">
-            <label for="email">Email</label>
+            <label for="email">E-mail-cím</label>
             <input type="email" class="form-control" id="email" name="email" value="<?= $user['email']; ?>">
         </div>
         <div class="form-group">
-            <label for="phone">Phone</label>
+            <label for="phone">Telefonszám</label>
             <input type="text" class="form-control" id="phone" name="phone" value="<?= $user['phone']; ?>">
         </div>
         <div class="form-group">
-            <label for="password">Zip Code</label>
+            <label for="password">Irányítószám</label>
             <input type="number" class="form-control" id="password" name="irsz" value="<?= $user['irsz']; ?>">
         </div>
         <div class="form-group">
-            <label for="address">Address</label>
+            <label for="address">Cím</label>
             <input type="text" class="form-control" id="address" name="address" value="<?= $user['address']; ?>">
         </div>
-        <h2>Edit Invoice Data</h2>
+        <h2>Számlázási adatok szerkesztése</h2>
         <div class="form-group">
-            <label for="invoice_address">Invoice Address</label>
+            <label for="invoice_address">Számlázási cím</label>
             <input type="text" class="form-control" id="invoice_address" name="invoice_address" value="<?= $user['invoice_address']; ?>">
         </div>
         <div class="form-group">
-            <label for="invoice_irsz">Invoice Zip Code</label>
+            <label for="invoice_irsz">Számlázási irányítószám</label>
             <input type="number" class="form-control" id="invoice_irsz" name="invoice_irsz" value="<?= $user['invoice_irsz']; ?>">
         </div>
         <div class="form-group">
-            <label for="name">Invoice Company Name</label>
+            <label for="name">Számlázási cégnév</label>
             <input type="text" class="form-control" id="name" name="name" value="<?= $user['name']; ?>">
         </div>
         <div class="form-group">
-            <label for="tax_number">Invoice Tax Number</label>
+            <label for="tax_number">Adószám</label>
             <input type="text" class="form-control" id="tax_number" name="tax_number" value="<?= $user['tax_number']; ?>">
         </div>
-        <button type="submit" name="update_user" class="btn btn-primary">Update User</button>
+        <button type="submit" name="update_user" class="btn btn-primary">Felhasználói adatok frissítése</button>
     </form>
 <?php else: ?>
-    <p>User not found.</p>
+    <p>Nem található felhasználó.</p>
 <?php endif; ?>

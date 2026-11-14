@@ -8,14 +8,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($name == null) {
         http_response_code(400);
-        $errors[] = 'Hiba: a name mező kötelező.';
+        $errors[] = 'Hiba: a név megadása kötelező.';
     }
 
     if ($parent_id !== null  && $parent_id !== '') {
         $parent_id = preg_replace('/[^0-9]/', '', $parent_id);
         if(empty(edit_catalog($parent_id))) {
             http_response_code(404);
-            $errors[] = 'Hiba: a megadott parent id-hez nem található katalógus.';
+            $errors[] = 'Hiba: a megadott szülőkatalógus-azonosítóhoz nem található katalógus.';
         }
     }
 
@@ -41,11 +41,11 @@ include("error.php");
 ?>
 
 <form method="POST">
-    <label for="name">Name:</label>
+    <label for="name">Név:</label>
     <input type="text" name="name" id="name" value="<?= $_POST['name'] ?? '' ?>" required>
-    <label for="parent_id">Parent:</label>
+    <label for="parent_id">Szülőkatalógus:</label>
     <select name="parent" id="parent_id">
-        <option value="">None</option>
+        <option value="">Nincs</option>
         <?php
             $data = catalogs();
             $catalogs = $data['catalogs'] ?? [];
@@ -53,6 +53,6 @@ include("error.php");
                 <option value="<?= $catalog['id'] ?>"><?= $catalog['name'] ?></option>
             <?php endforeach; ?>
         </select>
-    <input type="checkbox" name="visible" value="1"> Visible
-    <button type="submit">Create Catalog</button>
+    <input type="checkbox" name="visible" value="1"> Látható
+    <button type="submit">Katalógus létrehozása</button>
 </form>

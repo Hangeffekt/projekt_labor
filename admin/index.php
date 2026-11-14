@@ -3,7 +3,17 @@ require_once "../private/connect.php";
 session_start();
 $errors = [];
 $success = [];
-
+function admin_status_label($status) {
+    $labels = [
+        'pending' => 'Függőben',
+        'processing' => 'Feldolgozás alatt',
+        'completed' => 'Teljesítve',
+        'cancelled' => 'Lemondva',
+        'PENDING' => 'Függőben',
+        'COMPLETED' => 'Lezárva',
+    ];
+    return $labels[$status] ?? $status;
+}
 if(!isset($_SESSION['is_logged_in']) || $_SESSION['is_logged_in'] === null) {
     $page = "login";
 }

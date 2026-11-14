@@ -2,7 +2,7 @@
 
     if (!isset($_GET['id']) || $_GET['id'] === '') {
         http_response_code(400);
-        die('Hiba: a id query paraméter kötelező.');
+        die('Hiba: az azonosító megadása kötelező.');
     }
 
     $data = edit_brand($_GET['id']);
@@ -15,12 +15,12 @@
 
         if ($id === '' || $name === '') {
             http_response_code(400);
-            $errors[] = 'Hiba: az id és name mezők kötelezőek.';
+            $errors[] = 'Hiba: az azonosító és a név megadása kötelező.';
         }
 
         if(empty($data['brand'])) {
             http_response_code(404);
-            $errors[] = 'Hiba: a megadott id-hez nem található márka.';
+            $errors[] = 'Hiba: a megadott azonosítóhoz nem található márka.';
         }
 
         if (brand_exists($name)) {
@@ -38,7 +38,7 @@
 ?>
 
 <form method="POST">
-    <label for="name">Name:</label>
+    <label for="name">Név:</label>
     <input type="text" name="name" id="name" value="<?= $brand[0]['name'] ?? '' ?>" required>
-    <button type="submit">Update Brand</button>
+    <button type="submit">Márka frissítése</button>
 </form>

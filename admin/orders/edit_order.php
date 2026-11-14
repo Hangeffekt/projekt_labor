@@ -3,12 +3,12 @@ if(isset($_GET['id'])) {
     $id = preg_match('/^\d+$/', $_GET['id']) ? $_GET['id'] : null;
     if ($id === null) {
         // Handle invalid ID
-        echo "Invalid order ID.";
+        echo "Érvénytelen rendelésazonosító.";
         exit;
     }
 } else {
     // Handle the case when 'id' is not provided in the URL
-    echo "Order ID is missing.";
+    echo "Hiányzik a rendelésazonosító.";
     exit;
 }
 
@@ -24,63 +24,63 @@ $order = $data["order"] ?? null;
 $user = $data["user"] ?? null;
 $items = $data["order_items"] ?? [];
 ?>
-<h2>Change status</h2>
+<h2>Állapot módosítása</h2>
 <?php if ($order): ?>
-    <h1>Edit Order #<?php echo $order['id']; ?></h1>
+    <h1>Rendelés szerkesztése #<?php echo $order['id']; ?></h1>
     <form method="POST">
         <div class="form-group">
-            <label for="status">Status</label>
+            <label for="status">Állapot</label>
             <select class="form-control" id="status" name="status">
-                <option value="pending" <?= $order['status'] === 'pending' ? 'selected' : ''; ?>>Pending</option>
-                <option value="processing" <?= $order['status'] === 'processing' ? 'selected' : ''; ?>>Processing</option>
-                <option value="completed" <?= $order['status'] === 'completed' ? 'selected' : ''; ?>>Completed</option>
-                <option value="cancelled" <?= $order['status'] === 'cancelled' ? 'selected' : ''; ?>>Cancelled</option>
+                <option value="pending" <?= $order['status'] === 'pending' ? 'selected' : ''; ?>>Függőben</option>
+                <option value="processing" <?= $order['status'] === 'processing' ? 'selected' : ''; ?>>Feldolgozás alatt</option>
+                <option value="completed" <?= $order['status'] === 'completed' ? 'selected' : ''; ?>>Teljesítve</option>
+                <option value="cancelled" <?= $order['status'] === 'cancelled' ? 'selected' : ''; ?>>Lemondva</option>
             </select>
         </div>
-        <button type="submit" class="btn btn-primary">Update Order</button>
+        <button type="submit" class="btn btn-primary">Rendelés frissítése</button>
     </form>
 
-    <h1>Order Details for Order #<?= $order['id']; ?></h1>
+    <h1>A(z) #<?= $order['id']; ?> rendelés adatai</h1>
     
-    <p><strong>Total Amount:</strong> <?= $order['total_amount']; ?></p>
-    <p><strong>Status:</strong> <?= $order['status']; ?></p>
-    <p><strong>Created At:</strong> <?= $order['created_at']; ?></p>
-    <h2>Delivery datas</h2>
-    <p><strong>Customer Name:</strong> <?= $order['first_name'] . ' ' . $order['last_name']; ?></p>
-    <p><strong>Delivery Address:</strong> <?= $order['address']; ?></p>
-    <p><strong>ZIP Code:</strong> <?= $order['irsz']; ?></p>
-    <p><strong>City:</strong> <?= $order['city']; ?></p>
-    <p><strong>Customer Email:</strong> <?=  $order['email']; ?></p>
-    <p><strong>Customer Phone:</strong> <?= $order['phone']; ?></p>
-    <h2>Invoice datas</h2>
+    <p><strong>Végösszeg:</strong> <?= $order['total_amount']; ?></p>
+    <p><strong>Állapot:</strong> <?= admin_status_label($order['status']); ?></p>
+    <p><strong>Létrehozás dátuma:</strong> <?= $order['created_at']; ?></p>
+    <h2>Szállítási adatok</h2>
+    <p><strong>Vásárló neve:</strong> <?= $order['first_name'] . ' ' . $order['last_name']; ?></p>
+    <p><strong>Szállítási cím:</strong> <?= $order['address']; ?></p>
+    <p><strong>Irányítószám:</strong> <?= $order['irsz']; ?></p>
+    <p><strong>Település:</strong> <?= $order['city']; ?></p>
+    <p><strong>Vásárló e-mail-címe:</strong> <?=  $order['email']; ?></p>
+    <p><strong>Vásárló telefonszáma:</strong> <?= $order['phone']; ?></p>
+    <h2>Számlázási adatok</h2>
     <?php if($order['invoice'] == 1) { ?>
-        <p><strong>Invoice Address:</strong> <?= $order['invoice_address']; ?></p>
-        <p><strong>Invoice ZIP Code:</strong> <?= $order['invoice_irsz']; ?></p>
-        <p><strong>Invoice Company Name:</strong> <?= $order['name']; ?></p>
-        <p><strong>Invoice Tax Number:</strong> <?= $order['tax_number']; ?></p>
+        <p><strong>Számlázási cím:</strong> <?= $order['invoice_address']; ?></p>
+        <p><strong>Számlázási irányítószám:</strong> <?= $order['invoice_irsz']; ?></p>
+        <p><strong>Számlázási cégnév:</strong> <?= $order['name']; ?></p>
+        <p><strong>Adószám:</strong> <?= $order['tax_number']; ?></p>
     <?php } else { ?>
-        <p><strong>Customer Name:</strong> <?= $order['first_name'] . ' ' . $order['last_name']; ?></p>
-        <p><strong>Delivery Address:</strong> <?= $order['address']; ?></p>
-        <p><strong>ZIP Code:</strong> <?= $order['irsz']; ?></p>
-        <p><strong>City:</strong> <?= $order['city']; ?></p>
-        <p><strong>Customer Email:</strong> <?=  $order['email']; ?></p>
-        <p><strong>Customer Phone:</strong> <?= $order['phone']; ?></p>
+        <p><strong>Vásárló neve:</strong> <?= $order['first_name'] . ' ' . $order['last_name']; ?></p>
+        <p><strong>Szállítási cím:</strong> <?= $order['address']; ?></p>
+        <p><strong>Irányítószám:</strong> <?= $order['irsz']; ?></p>
+        <p><strong>Település:</strong> <?= $order['city']; ?></p>
+        <p><strong>Vásárló e-mail-címe:</strong> <?=  $order['email']; ?></p>
+        <p><strong>Vásárló telefonszáma:</strong> <?= $order['phone']; ?></p>
     <?php } ?>
 
-    <a href="index.php?page=edit_user&id=<?= $order['id']; ?>">Edit user data</a>
+    <a href="index.php?page=edit_user&id=<?= $order['id']; ?>">Vásárlói adatok szerkesztése</a>
     <?php else: ?>
-        <p>Order or user not found.</p>
+        <p>A rendelés vagy a vásárló nem található.</p>
     <?php endif; ?>
     
     
-    <h2>Order Items</h2>
+    <h2>Rendelt termékek</h2>
     <?php if ($items): ?>
     <table class="table table-striped">
         <thead>
             <tr>
-                <th scope="col">Item Name</th>
-                <th scope="col">Quantity</th>
-                <th scope="col">Price</th>
+                <th scope="col">Termék neve</th>
+                <th scope="col">Mennyiség</th>
+                <th scope="col">Ár</th>
             </tr>
         </thead>
         <tbody>
@@ -94,5 +94,5 @@ $items = $data["order_items"] ?? [];
         </tbody>
     </table>
     <?php else: ?>
-        <p>No items found for this order.</p>
+        <p>Ehhez a rendeléshez nem található termék.</p>
     <?php endif; ?>

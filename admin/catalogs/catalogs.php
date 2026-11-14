@@ -8,7 +8,7 @@
 
         if(empty(edit_catalog($id))) {
             http_response_code(404);
-            die('Hiba: a megadott id-hez nem található katalógus.');
+            die('Hiba: a megadott azonosítóhoz nem található katalógus.');
         }
 
         delete_catalog($id);
@@ -16,16 +16,16 @@
         exit();
     }
 ?>
-<a href="index.php?page=create_catalog">Create New Catalog</a>
+<a href="index.php?page=create_catalog">Új katalógus létrehozása</a>
 <?php include("error.php"); ?>
 <?php if($catalogs):?>
     <table>
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Name</th>
-                <th>Visible</th>
-                <th>Actions</th>
+                <th>Név</th>
+                <th>Látható</th>
+                <th>Műveletek</th>
             </tr>
         </thead>
         <tbody>
@@ -33,15 +33,15 @@
                 <tr>
                     <td><?= $catalog['id'] ?></td>
                     <td><?= $catalog['name'] ?></td>
-                    <td><?= $catalog['visible'] ? 'Yes' : 'No' ?></td>
+                    <td><?= $catalog['visible'] ? 'Igen' : 'Nem' ?></td>
                     <td>
-                        <a href="index.php?page=edit_catalog&id=<?= $catalog['id'] ?>">Edit</a>
-                        <a href="index.php?page=catalogs&catalog_delete_id=<?= $catalog['id'] ?>">Delete</a>
+                        <a href="index.php?page=edit_catalog&id=<?= $catalog['id'] ?>">Szerkesztés</a>
+                        <a href="index.php?page=catalogs&catalog_delete_id=<?= $catalog['id'] ?>">Törlés</a>
                     </td>
                 </tr>
             <?php endforeach; ?>
         </tbody>
     </table>
 <?php else: ?>
-    <p>No catalogs found.</p>
+    <p>Nem található katalógus.</p>
 <?php endif; ?>

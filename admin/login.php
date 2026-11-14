@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             header("Location: index.php?page=main");
             exit();
         } else {
-            $errors[] = "Hibás email vagy jelszó.";
+            $errors[] = "Hibás e-mail-cím vagy jelszó.";
         }
     }
 }
@@ -24,9 +24,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 
 <form method="POST">
-    <label for="email">Email:</label>
+    <label for="email">E-mail-cím:</label>
     <input type="email" id="email" name="email" required>
-    <label for="password">Password:</label>
+    <label for="password">Jelszó:</label>
     <input type="password" id="password" name="password" required>
-    <button type="submit">Login</button>
+    <button type="submit">Bejelentkezés</button>
 </form>

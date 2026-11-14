@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if (checkAdminExists($email)) {
-        $errors[] = "Ez az email már létezik.";
+        $errors[] = "Ez az e-mail-cím már használatban van.";
     }
     
     if($errors == null) {
@@ -26,14 +26,14 @@ include("error.php");
 ?>
 
 <form method="POST">
-    <label for="name">Name:</label>
+    <label for="name">Név:</label>
     <input type="text" id="name" name="name" required>
-    <label for="email">Email:</label>
+    <label for="email">E-mail-cím:</label>
     <input type="email" id="email" name="email" required>
-    <label for="password">Password:</label>
+    <label for="password">Jelszó:</label>
     <input type="password" id="password" name="password" required>
-    <label for="confirm_password">Confirm Password:</label>
+    <label for="confirm_password">Jelszó megerősítése:</label>
     <input type="password" id="confirm_password" name="confirm_password" required>
 
-    <button type="submit">Create Admin</button>
+    <button type="submit">Adminisztrátor létrehozása</button>
 </form>

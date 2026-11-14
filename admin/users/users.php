@@ -2,16 +2,16 @@
     $data = users();
     $users = $data["users"];
 ?>
-<a href="index.php?page=create_user">Create New User</a>
+<a href="index.php?page=create_user">Új felhasználó létrehozása</a>
 <?php include("error.php"); ?>
 <table>
     <thead>
         <tr>
-            <th scope="col">User ID</th>
-            <th scope="col">Customer Name</th>
-            <th scope="col">E-mail</th>
-            <th scope="col">Created At</th>
-            <th scope="col">Action</th>
+            <th scope="col">Felhasználó-azonosító</th>
+            <th scope="col">Vásárló neve</th>
+            <th scope="col">E-mail-cím</th>
+            <th scope="col">Létrehozás dátuma</th>
+            <th scope="col">Művelet</th>
         </tr>
     </thead>
     <tbody>
@@ -23,13 +23,13 @@
                 <td><?= $user['email']; ?></td>
                 <td><?= $user['created_at']; ?></td>
                 <td>
-                    <a href="index.php?page=edit_user&id=<?= $user['id']; ?>" class="btn btn-primary">View</a>
+                    <a href="index.php?page=edit_user&id=<?= $user['id']; ?>" class="btn btn-primary">Megtekintés</a>
                 </td>
             </tr>  
         <?php endforeach; ?>
     <?php else: ?>
         <tr>
-            <td colspan="6">No user found.</td>
+            <td colspan="6">Nem található felhasználó.</td>
         </tr>
         <?php endif; ?>
     </tbody>

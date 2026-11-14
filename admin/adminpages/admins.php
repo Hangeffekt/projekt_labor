@@ -8,7 +8,7 @@
 
         if(empty(edit_admin($id))) {
             http_response_code(404);
-            die('Hiba: a megadott id-hez nem található admin.');
+            die('Hiba: a megadott azonosítóhoz nem található adminisztrátor.');
         }
 
         delete_admin($id);
@@ -16,15 +16,15 @@
         exit();
     }
 ?>
-<a href="index.php?page=create_admin">Create New Admin</a>
+<a href="index.php?page=create_admin">Új adminisztrátor létrehozása</a>
 <?php include("error.php"); ?>
 <?php if($admins):?>
     <table>
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Name</th>
-                <th>Actions</th>
+                <th>Név</th>
+                <th>Műveletek</th>
             </tr>
         </thead>
         <tbody>
@@ -33,13 +33,13 @@
                     <td><?= $admin['id'] ?></td>
                     <td><?= $admin['name'] ?></td>
                     <td>
-                        <a href="index.php?page=edit_admin&id=<?= $admin['id'] ?>">Edit</a>
-                        <a href="index.php?page=admins&admin_delete_id=<?= $admin['id'] ?>">Delete</a>
+                        <a href="index.php?page=edit_admin&id=<?= $admin['id'] ?>">Szerkesztés</a>
+                        <a href="index.php?page=admins&admin_delete_id=<?= $admin['id'] ?>">Törlés</a>
                     </td>
                 </tr>
             <?php endforeach; ?>
         </tbody>
     </table>
 <?php else: ?>
-    <p>No admins found.</p>
+    <p>Nem található adminisztrátor.</p>
 <?php endif; ?>

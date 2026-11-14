@@ -9,7 +9,7 @@
 
     if (!isset($_GET['id']) || $_GET['id'] === '') {
         http_response_code(400);
-        die('Hiba: a id query paraméter kötelező.');
+        die('Hiba: az azonosító megadása kötelező.');
     }
 
     $data = edit_product($_GET['id']);
@@ -17,7 +17,7 @@
 
     if(empty($data['product'])) {
         http_response_code(404);
-        $errors[] = 'Hiba: a megadott id-hez nem található termék.';
+        $errors[] = 'Hiba: a megadott azonosítóhoz nem található termék.';
     }
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -39,21 +39,21 @@
         $brand_exists = $data['brand'] ?? [];
         if(empty($brand_exists)) {
             http_response_code(404);
-            $errors[] = 'Hiba: a megadott id-hez nem található márka.';
+            $errors[] = 'Hiba: a megadott azonosítóhoz nem található márka.';
         }
 
         $data = edit_tax($tax_id);
         $tax_exists = $data['tax'] ?? [];
         if(empty($tax_exists)) {
             http_response_code(404);
-            $errors[] = 'Hiba: a megadott id-hez nem található adó.';
+            $errors[] = 'Hiba: a megadott azonosítóhoz nem található adó.';
         }
 
         $data = edit_catalog($catalog_id);
         $catalog_exists = $data['catalog'] ?? [];
         if(empty($catalog_exists)) {
             http_response_code(404);
-            $errors[] = 'Hiba: a megadott id-hez nem található katalógus.';
+            $errors[] = 'Hiba: a megadott azonosítóhoz nem található katalógus.';
         }
 
         if(checkProductExists($name, $id)){
@@ -90,9 +90,9 @@
 
 <?php if (!empty($data)): ?>
     <form method="POST">
-        <label for="brand">Brand:</label>
+        <label for="brand">Márka:</label>
         <select name="brand" id="brand" required>
-            <option value="">Select a brand:</option>
+            <option value="">Válassz márkát:</option>
             <?php foreach ($brands as $brand): ?>
                 <?php if ($brand['id'] == $product[0]['brand_id']): ?>
                     <option value="<?= $brand['id'] ?>" selected><?= $brand['name'] ?></option>
@@ -101,11 +101,11 @@
                 <?php endif; ?>
             <?php endforeach; ?>
         </select>
-        <label for="name">Name:</label>
+        <label for="name">Név:</label>
         <input type="text" name="name" id="name" value="<?= $_POST['name'] ?? $product[0]['product_name'] ?>" required>
-        <label for="tax">Taxes:</label>
+        <label for="tax">Adó:</label>
         <select name="tax" id="tax" required>
-            <option value="">Select taxes:</option>
+            <option value="">Válassz adót:</option>
             <?php foreach ($taxes as $tax): ?>
                 <?php if ($tax['id'] == $product[0]['tax_id']): ?>
                     <option value="<?= $tax['id'] ?>" selected><?= $tax['value'] ?></option>
@@ -114,9 +114,9 @@
                 <?php endif; ?>
             <?php endforeach; ?>
         </select>
-        <label for="catalog">Catalog:</label>
+        <label for="catalog">Katalógus:</label>
         <select name="catalog" id="catalog" required>
-            <option value="">Select a catalog:</option>
+            <option value="">Válassz katalógust:</option>
             <?php foreach ($catalogs as $catalog): ?>
                 <?php if ($catalog['id'] == $product[0]['catalog_id']): ?>
                     <option value="<?= $catalog['id'] ?>" selected><?= $catalog['name'] ?></option>
@@ -127,10 +127,10 @@
         </select>
         <label for="ean">EAN:</label>
         <input type="text" name="ean" id="ean" value="<?= $_POST['ean'] ?? $product[0]['ean'] ?>" required>
-        <label for="sale_price">Sale Price:</label>
+        <label for="sale_price">Eladási ár:</label>
         <input type="text" name="sale_price" id="sale_price" value="<?= $_POST['sale_price'] ?? $product[0]['sale_price'] ?>" required>
-        <input type="checkbox" name="visible" value="1" <?= $product[0]['visible'] == 1 ? 'checked' : '' ?>> Visible
-        <button type="submit">Update Product</button>
+        <input type="checkbox" name="visible" value="1" <?= $product[0]['visible'] == 1 ? 'checked' : '' ?>> Látható
+        <button type="submit">Termék frissítése</button>
     </form>
 <?php else: ?>
     <p><?= implode('<br>', $errors) ?></p>

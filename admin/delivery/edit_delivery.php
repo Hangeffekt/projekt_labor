@@ -3,7 +3,7 @@ $errors = [];
 
 if (!isset($_GET['id']) || $_GET['id'] === '') {
     http_response_code(400);
-    die('Hiba: a id query paraméter kötelező.');
+    die('Hiba: az azonosító megadása kötelező.');
 }
 
 $data = edit_delivery($_GET['id']);
@@ -64,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 ?>
 <?php include("error.php"); ?>
 <form method="post">
-    <label for="ean">Ean:</label>
+    <label for="ean">EAN-kód:</label>
     <input type="number" name="ean">
     <input type="submit" name="eanbtn" value="Keresés">
 </form>
@@ -79,21 +79,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 <?php if($products_list):?>
     <?php foreach($products_list as $product): ?>
             <?= $product['brand_name'] ?> <?= $product['product_name'] ?>
-            <?= $product['status'] ?>
             <?php if($product['status'] == 'PENDING'): ?>
                 <form method="post">
                     <input type="hidden" name="product_id" value="<?= $product['id'] ?>">
-                    net price
+                    Nettó ár
                     <input type="number" value="<?= $product['net_price'] ?>" name="net_price" required>
-                    sale price
+                    Eladási ár
                     <input type="number" value="<?= $product['sale_price'] ?>" name="sale_price" required>
-                    qty
+                    Mennyiség
                     <input type="number" value="<?= $product['qty'] ?>" name="qty" required>
                     <input type="submit" name="modify" value="Módosít">
                     <a href="index.php?page=edit_delivery&id=<?= $delivery['id'] ?>&delete_product=<?= $product['id'] ?>">Törlés</a>
                 </form>
+            <?php else: ?>
+                <?= $product['net_price'] ?>, 
+                <?= $product['sale_price'] ?>, 
+                <?= $product['qty'] ?>
             <?php endif; ?>
+             <br>
     <?php endforeach; ?>
 <?php else: ?>
-    <p>No products found.</p>
+    <p>Nem található termék.</p>
 <?php endif; ?>

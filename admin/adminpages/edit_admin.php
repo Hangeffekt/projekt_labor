@@ -2,7 +2,7 @@
 require_once "../private/connect.php";
 if (!isset($_GET['id']) || $_GET['id'] === '') {
     http_response_code(400);
-    die('Hiba: a id query paraméter kötelező.');
+    die('Hiba: az azonosító megadása kötelező.');
 }
 
 $id = preg_replace('/[^0-9]/', '', $_GET['id']);
@@ -16,11 +16,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if($id == null || $id === '') {
         http_response_code(400);
-        $errors[] = 'Hiba: a id query paraméter kötelező.';
+        $errors[] = 'Hiba: az azonosító megadása kötelező.';
     }
 
     if (checkAdminExists($email)) {
-        $errors[] = "Ez az email már létezik.";
+        $errors[] = "Ez az e-mail-cím már használatban van.";
     }
     
     if($errors == null) {
@@ -33,10 +33,10 @@ include("error.php");
 ?>
 
 <form method="POST">
-    <label for="name">Name:</label>
+    <label for="name">Név:</label>
     <input type="text" id="name" name="name" value="<?= $admin[0]['name'] ?>" required>
-    <label for="email">Email:</label>
+    <label for="email">E-mail-cím:</label>
     <input type="email" id="email" name="email" value="<?= $admin[0]['email'] ?>" required>
-    <button type="submit">Update Admin</button>
+    <button type="submit">Adminisztrátor adatainak frissítése</button>
 </form>
 

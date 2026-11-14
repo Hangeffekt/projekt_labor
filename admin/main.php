@@ -10,12 +10,12 @@
 <table>
     <thead>
         <tr>
-            <th scope="col">Order ID</th>
-            <th scope="col">Customer Name</th>
-            <th scope="col">Total Amount</th>
-            <th scope="col">Status</th>
-            <th scope="col">Created At</th>
-            <th scope="col">Action</th>
+            <th scope="col">Rendelésazonosító</th>
+            <th scope="col">Vásárló neve</th>
+            <th scope="col">Végösszeg</th>
+            <th scope="col">Állapot</th>
+            <th scope="col">Létrehozás dátuma</th>
+            <th scope="col">Művelet</th>
         </tr>
     </thead>
     <tbody>
@@ -25,16 +25,16 @@
                 <td><?= htmlspecialchars($order['id']); ?></td>
                 <td><?= htmlspecialchars($order['first_name'] . ' ' . $order['last_name']); ?></td>
                 <td><?= htmlspecialchars($order['total_amount']); ?></td>
-                <td><?= htmlspecialchars($order['status']); ?></td>
+                <td><?= htmlspecialchars(admin_status_label($order['status'])); ?></td>
                 <td><?= htmlspecialchars($order['created_at']); ?></td>
                 <td>
-                    <a href="index.php?page=edit_order&id=<?= $order['id']; ?>">View</a>
+                    <a href="index.php?page=edit_order&id=<?= $order['id']; ?>">Megtekintés</a>
                 </td>
             </tr>  
         <?php endforeach; ?>
     <?php else: ?>
         <tr>
-            <td colspan="6">No orders found.</td>
+            <td colspan="6">Nem található rendelés.</td>
         </tr>
     <?php endif; ?>
     </tbody>

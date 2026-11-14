@@ -7,13 +7,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($name == null){
         http_response_code(400);
-        $errors[] = 'Hiba: a name mező kötelező.';
+        $errors[] = 'Hiba: a név megadása kötelező.';
     }
 
     if ($arriving_at == null)
     {
         http_response_code(400);
-        $errors[] = 'Hiba: a arriving_at mező kötelező.';
+        $errors[] = 'Hiba: az érkezés dátumának megadása kötelező.';
     }
 
     if (empty($errors)){
@@ -30,5 +30,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <input type="text" name="name" id="name" value="<?= $_POST['name'] ?? '' ?>" required>
     <label for="parent_id">Beérkezés dátuma:</label>
     <input type="date" name="arriving_at" required>
-    <button type="submit">Create Delivery</button>
+    <button type="submit">Szállítmány létrehozása</button>
 </form>

@@ -2,7 +2,7 @@
 
     if (!isset($_GET['id']) || $_GET['id'] === '') {
         http_response_code(400);
-        die('Hiba: a id query paraméter kötelező.');
+        die('Hiba: az azonosító megadása kötelező.');
     }
 
     $data = edit_tax($_GET['id']);
@@ -15,12 +15,12 @@
 
         if ($id === '' || $value === '') {
             http_response_code(400);
-            $errors[] = 'Hiba: az id és value mezők kötelezőek.';
+            $errors[] = 'Hiba: az azonosító és az érték megadása kötelező.';
         }
 
         if(empty($data['tax'])) {
             http_response_code(404);
-            $errors[] = 'Hiba: a megadott id-hez nem található adó.';
+            $errors[] = 'Hiba: a megadott azonosítóhoz nem található adó.';
         }
 
         if (checkTaxExists($value)) {
@@ -38,7 +38,7 @@
 ?>
 
 <form method="POST">
-    <label for="value">Value:</label>
+    <label for="value">Érték:</label>
     <input type="number" name="value" id="value" value="<?= $tax[0]['value'] ?? '' ?>" required>
-    <button type="submit">Update Tax</button>
+    <button type="submit">Adó frissítése</button>
 </form>

@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($tax_value == null) {
         http_response_code(400);
-        $errors[] = 'Hiba: a value mező kötelező.';
+        $errors[] = 'Hiba: az érték megadása kötelező.';
     }
 
     if (checkTaxExists($tax_value)) {
@@ -30,7 +30,7 @@ include("error.php");
 ?>
 
 <form method="POST">
-    <label for="value">Value:</label>
+    <label for="value">Érték:</label>
     <input type="number" name="value" id="value" value="<?= $tax_value ?? '' ?>" required>
-    <button type="submit">Create Tax</button>
+    <button type="submit">Adó létrehozása</button>
 </form>

@@ -8,7 +8,7 @@
 
         if(empty(edit_tax($id))) {
             http_response_code(404);
-            die('Hiba: a megadott id-hez nem található adó.');
+            die('Hiba: a megadott azonosítóhoz nem található adó.');
         }
 
         delete_tax($id);
@@ -16,15 +16,15 @@
         exit();
     }
 ?>
-<a href="index.php?page=create_tax">Create New Tax</a>
+<a href="index.php?page=create_tax">Új adó létrehozása</a>
 <?php include("error.php"); ?>
 <?php if($taxes):?>
     <table>
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Value</th>
-                <th>Actions</th>
+                <th>Érték</th>
+                <th>Műveletek</th>
             </tr>
         </thead>
         <tbody>
@@ -33,13 +33,13 @@
                     <td><?= $tax['id'] ?></td>
                     <td><?= $tax['value'] ?></td>
                     <td>
-                        <a href="index.php?page=edit_tax&id=<?= $tax['id'] ?>">Edit</a>
-                        <a href="index.php?page=taxes&tax_delete_id=<?= $tax['id'] ?>">Delete</a>
+                        <a href="index.php?page=edit_tax&id=<?= $tax['id'] ?>">Szerkesztés</a>
+                        <a href="index.php?page=taxes&tax_delete_id=<?= $tax['id'] ?>">Törlés</a>
                     </td>
                 </tr>
             <?php endforeach; ?>
         </tbody>
     </table>
 <?php else: ?>
-    <p>No taxes found.</p>
+    <p>Nem található adó.</p>
 <?php endif; ?>

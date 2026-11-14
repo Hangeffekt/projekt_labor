@@ -544,11 +544,11 @@ function edit_delivery($id) {
 function delete_delivery($id) {
     global $conn;
     
-    $sql = $conn->prepare("DELETE FROM transactions where inner_table_id = $id AND status is not 'COMPLETED'");
+    $sql = $conn->prepare("DELETE FROM transactions where inner_table_id = :id AND status != 'COMPLETED'");
     $sql->execute(["id" => $id]);
 
     $sql = $conn->prepare("DELETE FROM delivery 
-                          WHERE id = :id AND status is not 'COMPLETED'");
+                          WHERE id = :id AND status != 'COMPLETED'");
     $sql->execute(["id" => $id]);
 }
 

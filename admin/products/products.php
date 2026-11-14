@@ -10,7 +10,7 @@
         $product_exists = $data['product'] ?? [];
         if(empty($product_exists)) {
             http_response_code(404);
-            $errors[] = 'Hiba: a megadott id-hez nem található termék.';
+            $errors[] = 'Hiba: a megadott azonosítóhoz nem található termék.';
         }
         else{
             delete_product($id);
@@ -19,16 +19,16 @@
         }
     }
 ?>
-<a href="index.php?page=create_product">Create New Product</a>
+<a href="index.php?page=create_product">Új termék létrehozása</a>
 <?php include("error.php"); ?>
 <?php if($products):?>
     <table>
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Name</th>
-                <th>Visible</th>
-                <th>Actions</th>
+                <th>Név</th>
+                <th>Látható</th>
+                <th>Műveletek</th>
             </tr>
         </thead>
         <tbody>
@@ -36,15 +36,15 @@
                 <tr>
                     <td><?= $product['id'] ?></td>
                     <td><?= $product['brand_name'] ?> <?= $product['product_name'] ?></td>
-                    <td><?= $product['visible'] ? 'Yes' : 'No' ?></td>
+                    <td><?= $product['visible'] ? 'Igen' : 'Nem' ?></td>
                     <td>
-                        <a href="index.php?page=edit_product&id=<?= $product['id'] ?>">Edit</a>
-                        <a href="index.php?page=products&product_delete_id=<?= $product['id'] ?>">Delete</a>
+                        <a href="index.php?page=edit_product&id=<?= $product['id'] ?>">Szerkesztés</a>
+                        <a href="index.php?page=products&product_delete_id=<?= $product['id'] ?>">Törlés</a>
                     </td>
                 </tr>
             <?php endforeach; ?>
         </tbody>
     </table>
 <?php else: ?>
-    <p>No products found.</p>
+    <p>Nem található termék.</p>
 <?php endif; ?>

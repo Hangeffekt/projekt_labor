@@ -7,7 +7,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if($value == null){
         http_response_code(400);
-        $errors[] = 'Hiba: a name mező kötelező.';
+        $errors[] = 'Hiba: a név megadása kötelező.';
     }
 
     if(brand_exists($value)){
@@ -24,7 +24,7 @@ include("error.php");
 ?>
 
 <form method="POST">
-    <label for="name">Name:</label>
+    <label for="name">Név:</label>
     <input type="text" name="name" id="name" value="<?= $_POST['name'] ?? '' ?>" required>
-    <button type="submit">Create Brand</button>
+    <button type="submit">Márka létrehozása</button>
 </form>

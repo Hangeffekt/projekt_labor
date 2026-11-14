@@ -8,7 +8,7 @@
 
         if(empty(edit_delivery($id))) {
             http_response_code(404);
-            die('Hiba: a megadott id-hez nem található szállítás.');
+            die('Hiba: a megadott azonosítóhoz nem található szállítmány.');
         }
 
         delete_delivery($id);
@@ -22,7 +22,7 @@
 
         if(empty(edit_delivery($id))) {
             http_response_code(404);
-            die('Hiba: a megadott id-hez nem található szállítás.');
+            die('Hiba: a megadott azonosítóhoz nem található szállítmány.');
         }
 
         close_delivery($id);
@@ -30,7 +30,7 @@
         exit();
     }
 ?>
-<a href="index.php?page=create_delivery">Create New Delivery</a>
+<a href="index.php?page=create_delivery">Új szállítmány létrehozása</a><br>
 <?php include("error.php"); ?>
 
 <?php if($deliverys):?>
@@ -38,14 +38,15 @@
         
             <?= $delivery['id'] ?>
             <?= $delivery['name'] ?>
-            <?= $delivery['status'] ?>
+            <?= admin_status_label($delivery['status']) ?>
             <?= $delivery['arriving_at'] ?>
             <?= $delivery['created_at'] ?>
             
-                <a href="index.php?page=edit_delivery&id=<?= $delivery['id'] ?>">Edit</a>
-                <?= $delivery['status'] == 'COMPLETED' ? '' : '<a href="index.php?page=deliverys&delivery_close_id='.$delivery['id'].'">Close</a>' ?>
-                <?= $delivery['status'] == 'COMPLETED' ? '' : '<a href="index.php?page=deliverys&delivery_delete_id='.$delivery['id'].'">Delete</a>' ?>
+                <a href="index.php?page=edit_delivery&id=<?= $delivery['id'] ?>">Szerkesztés</a>
+                <?= $delivery['status'] == 'COMPLETED' ? '' : '<a href="index.php?page=deliverys&delivery_close_id='.$delivery['id'].'">Lezárás</a>' ?>
+                <?= $delivery['status'] == 'COMPLETED' ? '<a href="index.php?page=delivery_storno&id='.$delivery['id'].'">Storno</a>' : '<a href="index.php?page=deliverys&delivery_delete_id='.$delivery['id'].'">Törlés</a>' ?>
+            <br>
     <?php endforeach; ?>
 <?php else: ?>
-    <p>No deliverys found.</p>
+    <p>Nem található szállítmány.</p>
 <?php endif; ?>
