@@ -206,6 +206,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (!carousel || !progressBar) return;
 
+    const carouselInstance = bootstrap.Carousel.getOrCreateInstance(carousel);
+
     function restartProgress() {
         progressBar.classList.remove('animate');
         void progressBar.offsetWidth;
@@ -213,6 +215,17 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     carousel.addEventListener('slid.bs.carousel', restartProgress);
+
+    document.addEventListener('visibilitychange', function () {
+        if (document.hidden) {
+            carouselInstance.pause();
+            progressBar.style.animationPlayState = 'paused';
+        } else {
+            restartProgress();
+            progressBar.style.animationPlayState = 'running';
+            carouselInstance.cycle();
+        }
+    });
 
     restartProgress();
 });

@@ -1,4 +1,4 @@
-html,
+﻿html,
 body {
     min-height: 100%;
 }
@@ -2311,4 +2311,376 @@ body {
     to {
         width: 100%;
     }
+}
+
+.header-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.settings-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    border: none;
+    background: transparent;
+    color: #333;
+    font-size: 25px;
+    cursor: pointer;
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.settings-button:hover {
+    color: #19d858;
+    transform: rotate(30deg);
+}
+
+.settings-modal {
+    min-height: 400px;
+    border: none;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.settings-modal .modal-header {
+    padding: 20px 25px;
+}
+
+.settings-modal .modal-title {
+    font-size: 22px;
+    font-weight: 600;
+}
+
+.settings-modal .modal-body {
+    padding: 0;
+}
+
+.settings-layout {
+    display: flex;
+    min-height: 330px;
+}
+
+.settings-sidebar {
+    width: 200px;
+    flex-shrink: 0;
+    padding: 20px 15px;
+    background: #f5f5f5;
+    border-right: 1px solid #e5e5e5;
+}
+
+.settings-sidebar .nav-link {
+    text-align: left;
+    color: #333;
+    border-radius: 8px;
+    padding: 12px 15px;
+    margin-bottom: 5px;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.settings-sidebar .nav-link:hover {
+    background: #e9e9e9;
+}
+
+.settings-sidebar .nav-link.active {
+    background: #19d858;
+    color: #fff;
+}
+
+.settings-content {
+    flex: 1;
+    padding: 25px;
+    min-width: 0;
+}
+
+.header-top {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 10px 25px;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.settings-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    border: none;
+    background: transparent;
+    color: #333;
+    font-size: 25px;
+    cursor: pointer;
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.settings-button:hover {
+    color: #19d858;
+    transform: rotate(30deg);
+}
+
+.settings-modal {
+    min-height: 550px;
+    border: none;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.settings-modal .modal-header {
+    padding: 25px 30px;
+    border-bottom: none;
+}
+
+.settings-modal .modal-title {
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.settings-modal .modal-body {
+    padding: 15px 30px 30px;
+}
+
+.settings-modal .btn-close {
+    box-shadow: none;
+}
+
+.settings-layout {
+    display: flex;
+    min-height: 450px;
+}
+
+.settings-sidebar {
+    width: 220px;
+    flex-shrink: 0;
+    padding: 15px 15px 15px 0;
+    background: transparent;
+}
+
+.settings-sidebar .nav-link {
+    text-align: left;
+    color: #333;
+    background: transparent;
+    border-radius: 8px;
+    padding: 13px 15px;
+    margin-bottom: 5px;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.settings-sidebar .nav-link:hover {
+    background: #f5f5f5;
+}
+
+.settings-sidebar .nav-link.active {
+    background: #19d858;
+    color: #fff;
+}
+
+.settings-content {
+    flex: 1;
+    padding: 15px 25px;
+    min-width: 0;
+}
+
+.header-top {
+    position: relative;
+}
+
+.settings-button {
+    position: absolute;
+    right: 0;
+    top: 65px;
+    z-index: 10;
+}
+
+#settingsModal .modal-dialog {
+    max-width: 900px;
+}
+
+#settingsModal .modal-content {
+    min-height: 650px;
+    background: #fff;
+    border: none;
+    border-radius: 15px;
+    box-shadow: none;
+}
+
+#settingsModal .modal-header {
+    border: none;
+    padding: 25px 30px 15px;
+}
+
+#settingsModal .modal-body {
+    padding: 20px 30px 30px;
+    background: #fff;
+}
+
+#settingsModal .settings-layout {
+    min-height: 480px;
+    background: #fff;
+    border: none;
+}
+
+#settingsModal .settings-sidebar {
+    background: #fff;
+    border: none;
+    border-right: none;
+}
+
+#settingsModal .settings-content {
+    background: #fff;
+    border: none;
+}
+
+#settingsModal .settings-sidebar .nav-link {
+    border: none;
+    background: transparent;
+    color: #333;
+    border-radius: 8px;
+    padding: 14px 16px;
+    text-align: left;
+}
+
+#settingsModal .settings-sidebar .nav-link.active {
+    background: #19d858;
+    color: #fff;
+}
+
+#settingsModal .tab-content,
+#settingsModal .tab-pane {
+    background: #fff;
+    border: none;
+}
+
+.header-top {
+    position: relative;
+}
+
+.settings-button {
+    position: absolute;
+    right: 0;
+    top: 65px;
+    z-index: 10;
+}
+
+#settingsModal .modal-dialog {
+    max-width: 900px;
+}
+
+#settingsModal .modal-content {
+    min-height: 650px;
+    background: #fff;
+    border: none;
+    border-radius: 15px;
+    box-shadow: none;
+}
+
+#settingsModal .modal-header {
+    border: none;
+    padding: 25px 30px 15px;
+}
+
+#settingsModal .modal-body {
+    padding: 20px 30px 30px;
+    background: #fff;
+}
+
+#settingsModal .settings-layout {
+    min-height: 480px;
+    background: #fff;
+    border: none;
+}
+
+#settingsModal .settings-sidebar {
+    background: #fff;
+    border: none;
+    border-right: none;
+}
+
+#settingsModal .settings-content {
+    background: #fff;
+    border: none;
+}
+
+#settingsModal .settings-sidebar .nav-link {
+    border: none;
+    background: transparent;
+    color: #333;
+    border-radius: 8px;
+    padding: 14px 16px;
+    text-align: left;
+}
+
+#settingsModal .settings-sidebar .nav-link.active {
+    background: #19d858;
+    color: #fff;
+}
+
+#settingsModal .tab-content,
+#settingsModal .tab-pane {
+    background: #fff;
+    border: none;
+}
+
+.header-top,
+.header-bottom {
+    height: 70px;
+    min-height: 70px;
+    box-sizing: border-box;
+}
+
+.header-top {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+}
+
+.settings-button {
+    position: static;
+    margin: 0;
+}
+
+.header-bottom {
+    display: flex;
+    align-items: center;
+}
+
+.header-top,
+.header-bottom {
+    height: 70px;
+    min-height: 70px;
+    box-sizing: border-box;
+}
+
+.header-top {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.header-actions {
+    margin-right: 25px;
+}
+
+.settings-button {
+    position: static;
+    transform: none;
+    margin: 0;
+}
+
+.header-bottom {
+    display: flex;
+    align-items: center;
 }
