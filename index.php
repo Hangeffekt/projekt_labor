@@ -94,7 +94,40 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' and isset($_POST['add_to_cart'])) {
         }
     ?>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    const themeButtons = document.querySelectorAll('[data-theme-choice]');
+
+    function applyTheme(theme) {
+        document.documentElement.dataset.theme =
+            theme === 'green' ? '' : theme;
+
+        localStorage.setItem('shopTheme', theme);
+
+        themeButtons.forEach(button => {
+            button.classList.toggle(
+                'active',
+                button.dataset.themeChoice === theme
+            );
+        });
+    }
+
+    const savedTheme = localStorage.getItem('shopTheme') || 'green';
+
+    applyTheme(savedTheme);
+
+    themeButtons.forEach(button => {
+        button.addEventListener('click', function () {
+            applyTheme(this.dataset.themeChoice);
+        });
+    });
+
+});
+</script>
 </body>
+
 <footer>
 <?php require_once("footer.php") ?>
 </footer>

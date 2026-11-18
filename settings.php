@@ -44,9 +44,39 @@
                                  role="tabpanel">
                             </div>
 
-                            <div class="tab-pane fade"
-                                 id="theme-settings"
-                                 role="tabpanel">
+                            
+                            <div class="tab-pane fade" id="theme-settings" role="tabpanel">
+                                <h5>V&aacute;lassz t&eacute;m&aacute;t</h5>
+                                <p class="text-muted">
+                                    A kiv&aacute;lasztott t&eacute;ma az eg&eacute;sz oldalon &eacute;rv&eacute;nyes&uuml;l.
+                                </p>
+
+                                <div class="theme-options">
+                                    <button type="button" class="theme-option" data-theme-choice="green">
+                                        <span class="theme-color green"></span>
+                                        <span>Z&ouml;ld</span>
+                                    </button>
+
+                                    <button type="button" class="theme-option" data-theme-choice="blue">
+                                        <span class="theme-color blue"></span>
+                                        <span>K&eacute;k</span>
+                                    </button>
+
+                                    <button type="button" class="theme-option" data-theme-choice="purple">
+                                        <span class="theme-color purple"></span>
+                                        <span>Lila</span>
+                                    </button>
+
+                                    <button type="button" class="theme-option" data-theme-choice="red">
+                                        <span class="theme-color red"></span>
+                                        <span>Piros</span>
+                                    </button>
+
+                                    <button type="button" class="theme-option" data-theme-choice="orange">
+                                        <span class="theme-color orange"></span>
+                                        <span>Narancs</span>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>

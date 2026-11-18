@@ -1,7 +1,7 @@
 
 <header class="site-header">
     <a href="index.php?page=main" class="navbar-brand site-logo">
-        <img src="assets/logo.png" alt="Webshop logo">
+        <span class="theme-logo" role="img" aria-label="Webshop logo"></span>
         <span class="site-logo-tagline">ELADUNK DOLGOKAT HA MEGVESZIK</span>
     </a>
 
@@ -14,6 +14,11 @@
                         data-bs-target="#settingsModal"
                         aria-label="Beállítások">
                     <i class="bi bi-gear"></i>
+                </button>
+                <button class="profile-button"
+                        type="button"
+                        aria-label="Profil">
+                    <i class="bi bi-person-circle"></i>
                 </button>
             </div>
         </div>
