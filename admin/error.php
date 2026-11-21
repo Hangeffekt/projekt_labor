@@ -8,6 +8,8 @@
             Sikeres létrehozás!
         <?php elseif($_GET["success"] == 4):?>
             Sikeres lezárás!
+        <?php elseif($_GET["success"] == 5):?>
+            Sikeres sztornó!
         <?php endif;?>
     </div>
 <?php endif;?>

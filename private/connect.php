@@ -617,4 +617,22 @@ function delete_product_on_delivery_list($id){
                           WHERE id = :id AND status is not 'COMPLETED'");
     $sql->execute(["id" => $id]);
 }
+
+function storno_delivery($id){
+    global $conn;
+
+    $sql = $conn->prepare("UPDATE transactions 
+                          SET status = 'STORNO'
+                          WHERE id = :id");
+    $sql->execute([
+      "id" => $id
+    ]);
+    
+    $sql = $conn->prepare("UPDATE delivery 
+                          SET status = 'STORNO'
+                          WHERE id = :id");
+    $sql->execute([
+      "id" => $id
+    ]);
+}
 ?>

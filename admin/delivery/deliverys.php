@@ -29,6 +29,19 @@
         header("Location: index.php?page=deliverys&success=4");
         exit();
     }
+    if (isset($_GET['delivery_storno_id'])) {
+        $id = $_GET['delivery_storno_id'] ?? '';
+        $id = preg_replace('/[^0-9]/', '', $id);
+
+        if(empty(edit_delivery($id))) {
+            http_response_code(404);
+            die('Hiba: a megadott azonosítóhoz nem található szállítmány.');
+        }
+
+        storno_delivery($id);
+        header("Location: index.php?page=deliverys&success=5");
+        exit();
+    }
 ?>
 <a href="index.php?page=create_delivery">Új szállítmány létrehozása</a><br>
 <?php include("error.php"); ?>
@@ -43,8 +56,8 @@
             <?= $delivery['created_at'] ?>
             
                 <a href="index.php?page=edit_delivery&id=<?= $delivery['id'] ?>">Szerkesztés</a>
-                <?= $delivery['status'] == 'COMPLETED' ? '' : '<a href="index.php?page=deliverys&delivery_close_id='.$delivery['id'].'">Lezárás</a>' ?>
-                <?= $delivery['status'] == 'COMPLETED' ? '<a href="index.php?page=delivery_storno&id='.$delivery['id'].'">Storno</a>' : '<a href="index.php?page=deliverys&delivery_delete_id='.$delivery['id'].'">Törlés</a>' ?>
+                <?= $delivery['status'] == 'COMPLETED' || $delivery['status'] == 'STORNO' ? '' : '<a href="index.php?page=deliverys&delivery_close_id='.$delivery['id'].'">Lezárás</a>' ?>
+                <?= $delivery['status'] == 'STORNO' ? '' : ($delivery['status'] == 'COMPLETED' ? '<a href="index.php?page=deliverys&delivery_storno_id='.$delivery['id'].'">Storno</a>' : '<a href="index.php?page=deliverys&delivery_delete_id='.$delivery['id'].'">Törlés</a>') ?>
             <br>
     <?php endforeach; ?>
 <?php else: ?>

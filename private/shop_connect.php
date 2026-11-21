@@ -99,22 +99,12 @@ function save_cart_data($cart_data, $delivery_data){
     $email = $conn->prepare("SELECT id, email from users where email = :email");
     $email->execute(['email' => $delivery_data['email']]);
     $email = $email->fetch(PDO::FETCH_ASSOC);
+    $id = null;
 
     if(empty($email)){
-
-    }
-    else{
-        $update = $conn->prepare("UPDATE users SET first_name = :first_name, 
-        last_name = :last_name, 
-        phone = :phone, 
-        irsz = :irsz, 
-        address = :address, 
-        invoice = :invoice, 
-        name = :name, 
-        tax_number = :tax_number, 
-        invoice_irsz = :invoice_irsz, 
-        invoice_address = :invoice_address WHERE email = :email");
-        $update->execute(['first_name' => $delivery_data['vezeteknev'],
+        $sql = $conn->prepare("INSERT INTO users (first_name, last_name, email, phone, irsz, address, invoice, invoice_address, invoice_irsz, name, tax_number)
+                          values( :first_name, :last_name, :email, :phone, :irsz, :address, :invoice, :invoice_address, :invoice_irsz, :name, :tax_number)");
+        $sql->execute(['first_name' => $delivery_data['vezeteknev'],
         'last_name' => $delivery_data['keresztnev'],
         'phone' => $delivery_data['telefonszam'],
         'irsz' => $delivery_data['irsz'],
@@ -125,8 +115,50 @@ function save_cart_data($cart_data, $delivery_data){
         'invoice_irsz' => $delivery_data['invoice_irsz'],
         'invoice_address' => $delivery_data['invoice_cim'],
         'email' => $delivery_data['email']]);
-    }
 
-    var_dump($email);
-    exit();
+        $id = $conn->lastInsertId();
+    }
+    else{
+        $sql = $conn->prepare("UPDATE users SET first_name = :first_name, 
+            last_name = :last_name, 
+            phone = :phone, 
+            irsz = :irsz, 
+            address = :address, 
+            invoice = :invoice, 
+            name = :name, 
+            tax_number = :tax_number, 
+            invoice_irsz = :invoice_irsz, 
+            invoice_address = :invoice_address WHERE email = :email");
+        $sql->execute(['first_name' => $delivery_data['vezeteknev'],
+            'last_name' => $delivery_data['keresztnev'],
+            'phone' => $delivery_data['telefonszam'],
+            'irsz' => $delivery_data['irsz'],
+            'address' => $delivery_data['cim'],
+            'invoice' => $delivery_data['invoice'],
+            'name' => $delivery_data['name'],
+            'tax_number' => $delivery_data['tax_number'],
+            'invoice_irsz' => $delivery_data['invoice_irsz'],
+            'invoice_address' => $delivery_data['invoice_cim'],
+            'email' => $delivery_data['email']]);
+
+        $sql = $conn->prepare("SELECT id FROM users WHERE email = :email");
+
+        $sql->execute(["email" => $delivery_data['email']]);
+        $id = $sql->fetch(PDO::FETCH_ASSOC);
+    }
+    
+    $sql = $conn->prepare("INSERT INTO orders (user_id)
+                        values( :user_id )");
+    $sql->execute(['user_id' => $id["id"]]);
+
+    $id = $conn->lastInsertId();
+    
+    foreach ($cart_data["cart"] as $cart){
+        $sql = $conn->prepare("INSERT INTO transactions (type, inner_table_id, product_id, qty, sale_price)
+                                values( 'OUT', :inner_table_id, :product_id, :qty, :sale_price )");
+        $sql->execute(['inner_table_id' => $id,
+                        'product_id' => $cart["id"],
+                        'qty' => $cart["quantity"],
+                        'sale_price' => $cart["price"]]);
+    }
 }
